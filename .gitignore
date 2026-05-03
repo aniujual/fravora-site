@@ -9,3 +9,6 @@ Thumbs.db
 # Optional: if you ever add a build step
 node_modules/
 dist/
+
+# Local product notes (never commit)
+FEATURES_BY_TIER.md
