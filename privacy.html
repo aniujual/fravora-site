@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Fravora</title>
+  <link rel="icon" type="image/png" href="fravora.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0e0b14;
+      --bg2:       #13101c;
+      --surface:   #1c1728;
+      --border:    #2e2640;
+      --accent:    #9b5de5;
+      --accent2:   #c77dff;
+      --glow:      rgba(155, 93, 229, 0.35);
+      --text:      #e8e0f5;
+      --muted:     #8b7fa8;
+      --nav-bg:    rgba(14, 11, 20, 0.85);
+    }
+    [data-theme="light"] {
+      --bg:        #f5f0ff;
+      --bg2:       #ede6ff;
+      --surface:   #ffffff;
+      --border:    #d4c8f0;
+      --accent:    #7c3aed;
+      --accent2:   #9b5de5;
+      --glow:      rgba(124, 58, 237, 0.2);
+      --text:      #1a1033;
+      --muted:     #6b5b8a;
+      --nav-bg:    rgba(245, 240, 255, 0.88);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem; height: 64px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      text-decoration: none;
+    }
+    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-logo span {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1.15rem;
+      color: var(--text); letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 500;
+      padding: 0.4rem 0.85rem; border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--surface); }
+    .theme-btn {
+      margin-left: 0.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); width: 36px; height: 36px; border-radius: 8px;
+      cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 8rem 2rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .page-header h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; margin-bottom: 0.5rem;
+    }
+    .page-header p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 780px; margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .toc h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .toc ol {
+      padding-left: 1.25rem;
+      display: flex; flex-direction: column; gap: 0.4rem;
+    }
+    .toc li a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.88rem; transition: color 0.2s;
+    }
+    .toc li a:hover { color: var(--accent); }
+
+    .policy-section { margin-bottom: 2.75rem; }
+
+    .policy-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem; font-weight: 700;
+      margin-bottom: 1rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      scroll-margin-top: 80px;
+    }
+    .policy-section h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem; font-weight: 700;
+      color: var(--accent2);
+      margin: 1.25rem 0 0.5rem;
+    }
+    .policy-section p {
+      font-size: 0.92rem; line-height: 1.75;
+      color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .policy-section ul {
+      padding-left: 1.25rem;
+      display: flex; flex-direction: column; gap: 0.45rem;
+      margin-bottom: 0.75rem;
+    }
+    .policy-section ul li {
+      font-size: 0.88rem; line-height: 1.65;
+      color: var(--muted);
+    }
+    .policy-section ul li::marker { color: var(--accent); }
+    .policy-section a {
+      color: var(--accent2); text-decoration: underline;
+      text-decoration-color: rgba(199,125,255,0.35);
+      transition: color 0.2s;
+    }
+    .policy-section a:hover { color: var(--accent); }
+
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      font-size: 0.88rem; color: var(--muted); line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid var(--border);
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-left {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; color: var(--muted);
+    }
+    .footer-left img { width: 22px; height: 22px; border-radius: 5px; }
+    footer a {
+      font-size: 0.85rem; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <img src="fravora.png" alt="Fravora logo" />
+      <span>Fravora</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="privacy.html" class="active">Privacy Policy</a>
+      <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>Privacy Policy</h1>
+    <p>Last Updated: May 1, 2026</p>
+  </div>
+
+  <div class="content">
+
+    <div class="toc">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#s1">Information We Collect</a></li>
+        <li><a href="#s2">How We Use Information</a></li>
+        <li><a href="#s3">Third-Party Services</a></li>
+        <li><a href="#s4">Data Storage and Security</a></li>
+        <li><a href="#s5">Your Rights and Choices</a></li>
+        <li><a href="#s6">Children's Privacy</a></li>
+        <li><a href="#s7">Regional Privacy Rights</a></li>
+        <li><a href="#s8">Changes to This Policy</a></li>
+        <li><a href="#s9">Contact Us</a></li>
+      </ol>
+    </div>
+
+    <p style="font-size:0.92rem;color:var(--muted);line-height:1.75;margin-bottom:2.5rem;">
+      Fravora ("we," "our," or "the App") is committed to protecting your privacy. This Privacy Policy explains what information is collected, how it is used, and what choices you have regarding your data.
+    </p>
+
+    <!-- Section 1 -->
+    <div class="policy-section" id="s1">
+      <h2>1. Information We Collect</h2>
+
+      <h3>1.1 Information We Do Not Collect</h3>
+      <p>Fravora does not collect, store, or transmit any personally identifiable information (PII) such as your name, email address, or phone number to our servers. Your photos, videos, and media files are never uploaded to our servers under any circumstances.</p>
+
+      <h3>1.2 Anonymous Usage Analytics</h3>
+      <p>Fravora uses Google Firebase Analytics to collect anonymous, aggregated data about how the App is used. This includes:</p>
+      <ul>
+        <li>Device type, manufacturer, and operating system version</li>
+        <li>App version</li>
+        <li>Country and language settings</li>
+        <li>App session duration and frequency</li>
+        <li>Feature usage patterns</li>
+        <li>A randomized instance identifier (not linked to your identity)</li>
+      </ul>
+      <p>This data is anonymous and aggregated and does not include personally identifiable information. It is used solely to understand how the App is used and to improve its features and stability. It cannot be used to identify you personally.</p>
+
+      <h3>1.3 Advertising Identifiers</h3>
+      <p>If you choose to watch a rewarded advertisement to obtain temporary Pro tier access, that advertisement is served by Google AdMob. AdMob may collect and use your device's advertising identifier to serve personalized or non-personalized ads, depending on your consent settings and regional privacy regulations. For more information on how Google uses this data, please refer to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+
+      <h3>1.4 Location Data</h3>
+      <p>If you enable the weather overlay feature, Fravora will request access to your device's location to retrieve local weather forecasts from a third-party weather service. Your location is used only for the immediate weather request and is not stored, logged, or shared beyond what is necessary to fulfill that request.</p>
+
+      <h3>1.5 Voice Data</h3>
+      <p>If you use the voice control feature (Pro tier), voice processing is handled in two stages:</p>
+      <ul>
+        <li>Wake phrase detection is processed entirely on your device using the OpenWakeWord library. No audio data is transmitted externally during wake phrase detection.</li>
+        <li>Command recognition uses Google's Speech Recognition service to interpret your spoken commands after the wake phrase is detected. Audio captured during the command listening window is transmitted to Google's servers for processing. This audio is subject to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</li>
+      </ul>
+      <p>Fravora does not store, log, or retain any audio recordings or transcripts of your voice commands. Voice control is an optional feature and can be disabled at any time from the App's settings.</p>
+
+      <h3>1.6 Photo Metadata</h3>
+      <p>If you enable the metadata overlay feature (Pro tier), Fravora reads EXIF data embedded in your photos, including location coordinates and date taken, solely for the purpose of displaying this information as an overlay during the slideshow. This metadata is read locally from your photos and is never transmitted to our servers or shared with any third party.</p>
+
+      <h3>1.7 Issue Reports</h3>
+      <p>If you use the in-app issue reporting feature, you will be directed to send an email to our support address. Any information you include in that email — such as a description of the issue, your device details, or any attachments you choose to add — is shared with us voluntarily and is used solely to investigate and resolve the reported issue. We do not share this information with third parties.</p>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="policy-section" id="s2">
+      <h2>2. How We Use Information</h2>
+      <p>We use the information described above for the following purposes only:</p>
+      <ul>
+        <li>To operate and improve the App's features and performance</li>
+        <li>To serve a rewarded advertisement via Google AdMob when you explicitly choose to watch an ad to unlock temporary Pro tier access</li>
+        <li>To provide weather information when the weather overlay is enabled</li>
+        <li>To display photo metadata (location, date taken) when the metadata overlay is enabled</li>
+        <li>To process voice commands when voice control is enabled</li>
+        <li>To fulfill your requests to access and display photos from your selected sources</li>
+        <li>To investigate and resolve issues you report to us</li>
+      </ul>
+      <div class="callout">We do not sell your data. We do not use your data for marketing purposes. We do not build profiles about you.</div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="policy-section" id="s3">
+      <h2>3. Third-Party Services</h2>
+      <p>Fravora integrates with the following third-party services. Each service operates under its own privacy policy, which we encourage you to review.</p>
+
+      <h3>3.1 Google Play Services</h3>
+      <p>Used for app licensing and billing verification. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy policy</a>.</p>
+
+      <h3>3.2 Google Firebase</h3>
+      <p>We use Firebase Analytics to collect anonymous usage data as described in Section 1.2, and Firebase Remote Config to deliver app configuration updates without requiring an app update. No personally identifiable information is transmitted through these services. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy policy</a>.</p>
+
+      <h3>3.3 Google AdMob</h3>
+      <p>Used to serve rewarded advertisements when you explicitly choose to watch an ad to unlock temporary Pro tier access. AdMob may use advertising identifiers and cookies. You can opt out of personalized advertising through your device settings under <strong>Google &gt; Ads &gt; Opt out of Ads Personalization</strong>. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy policy</a>.</p>
+
+      <h3>3.4 Cloud Storage Providers (optional, user-initiated)</h3>
+      <p>If you choose to connect a cloud storage account (such as Google Photos, Microsoft OneDrive, or Dropbox), Fravora will request OAuth authorization to access only the specific albums or folders you select. The following applies to all cloud provider integrations:</p>
+      <ul>
+        <li>Access is strictly limited to the albums and folders you explicitly select</li>
+        <li>Your photos are downloaded to your device solely for display in the slideshow</li>
+        <li>Photos are cached locally on your device at screen resolution to improve performance</li>
+        <li>Your OAuth credentials (access and refresh tokens) are stored encrypted on your device and are never transmitted to our servers</li>
+        <li>We do not access, store, index, or analyze your cloud photos for any purpose other than displaying them in your slideshow</li>
+        <li>You can revoke access at any time from within the App or from your cloud provider's account settings</li>
+      </ul>
+
+      <h3>3.5 Google Photos API (additional disclosure)</h3>
+      <p>When you connect a Google Photos account, Fravora requests access to your Google Photos library solely to display your photos in the slideshow. Specifically:</p>
+      <ul>
+        <li>We access only the albums and media items you select</li>
+        <li>We do not modify, delete, or upload any content to your Google Photos library</li>
+        <li>We do not share your Google Photos data with any third party</li>
+        <li>We do not use your Google Photos data for advertising, analytics, or any purpose other than displaying your photos</li>
+        <li>Google Photos image URLs are temporary and are never persisted to disk; fresh URLs are fetched from Google's API each time an image is displayed</li>
+      </ul>
+
+      <h3>3.6 Radio Streams</h3>
+      <p>When you play a radio station, the App connects directly to that station's streaming server. The streaming server may log your IP address as part of normal server operation. Fravora has no control over and no access to those server logs.</p>
+
+      <h3>3.7 Voice Recognition</h3>
+      <p>Wake phrase detection is handled locally on your device by OpenWakeWord — no audio is transmitted externally during this stage. Follow-up command recognition is handled by Google Speech Recognition, which transmits audio to Google's servers for processing as described in Section 3.8. Fravora does not store or retain any audio data at any stage.</p>
+
+      <h3>3.8 Google Speech Recognition</h3>
+      <p>When voice control is enabled and a wake phrase is detected, the follow-up command audio is transmitted to Google's Speech Recognition service for processing. Fravora does not retain this audio data. For information on how Google handles speech data, please refer to <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="policy-section" id="s4">
+      <h2>4. Data Storage and Security</h2>
+
+      <h3>4.1 Local Storage</h3>
+      <p>All app configuration, including your selected photo sources, album settings, scheduling preferences, overlay settings, and all other app preferences, is stored locally on your device in private app storage accessible only to Fravora.</p>
+
+      <h3>4.2 Credential Security</h3>
+      <p>Credentials for network shares (SMB) and OAuth tokens for cloud providers are stored encrypted on your device using Android's EncryptedSharedPreferences. They are never transmitted to our servers.</p>
+
+      <h3>4.3 Photo Cache</h3>
+      <p>Photos from all sources (local, network, and cloud) are cached locally on your device at screen resolution to improve slideshow performance. The cache size is configurable in the App's settings. Cached photos are stored in private app storage and are not accessible to other apps.</p>
+
+      <h3>4.4 Photo Metadata</h3>
+      <p>EXIF metadata read from your photos for the metadata overlay feature is used in memory only and is never written to external storage or transmitted externally.</p>
+
+      <h3>4.5 No External Servers</h3>
+      <p>Fravora does not operate any servers that receive, store, or process your personal data or your photos. The App communicates externally only with the third-party services explicitly listed in Section 3.</p>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="policy-section" id="s5">
+      <h2>5. Your Rights and Choices</h2>
+
+      <h3>5.1 Personalized Advertising</h3>
+      <p>You can opt out of personalized ads served by AdMob through your device settings under <strong>Google &gt; Ads &gt; Opt out of Ads Personalization</strong>.</p>
+
+      <h3>5.2 Cloud Provider Access</h3>
+      <p>You can disconnect any connected cloud account at any time from within the App. Upon disconnection, stored OAuth tokens for that account are deleted from your device immediately.</p>
+
+      <h3>5.3 Location</h3>
+      <p>You can revoke location permission at any time through your device's app permission settings. Revoking location permission will disable the weather overlay feature.</p>
+
+      <h3>5.4 Voice Control</h3>
+      <p>You can disable voice control at any time from within the App's settings. When disabled, neither OpenWakeWord nor Google Speech Recognition will be active and no audio will be processed.</p>
+
+      <h3>5.5 Photo Metadata Display</h3>
+      <p>You can disable the metadata overlay at any time from within the App's settings. When disabled, no EXIF data is read or displayed.</p>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="policy-section" id="s6">
+      <h2>6. Children's Privacy</h2>
+      <p>Fravora is not directed at children under the age of 13. We do not knowingly collect any personally identifiable information from children under 13. If you believe a child under 13 has provided personal information through the App, please contact us and we will take steps to delete such information.</p>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="policy-section" id="s7">
+      <h2>7. Regional Privacy Rights</h2>
+
+      <h3>7.1 European Users (GDPR)</h3>
+      <p>If you are located in the European Economic Area, you have the right to access, correct, or delete your personal data, and to object to or restrict its processing. Since Fravora does not collect personally identifiable information on its own servers, most GDPR rights apply directly to the third-party services listed in Section 3. For requests related to data processed by those services, please refer to their respective privacy policies. For any other questions, contact us at the address below.</p>
+
+      <h3>7.2 California Users (CCPA)</h3>
+      <p>If you are a California resident, you have the right to know what personal information is collected about you and to request deletion of that information. Fravora does not sell personal information. For data collected by third-party services, please refer to their respective privacy policies.</p>
+    </div>
+
+    <!-- Section 8 -->
+    <div class="policy-section" id="s8">
+      <h2>8. Changes to This Privacy Policy</h2>
+      <p>We may update this Privacy Policy from time to time to reflect changes in the App's features or applicable legal requirements. When we make changes, we will update the "Last Updated" date at the top of this document. We encourage you to review this policy periodically. Continued use of the App after changes are posted constitutes your acceptance of the updated policy.</p>
+    </div>
+
+    <!-- Section 9 -->
+    <div class="policy-section" id="s9">
+      <h2>9. Contact Us</h2>
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy, please contact us at:</p>
+      <div class="callout"><a href="mailto:aniujual.dev@yahoo.com">aniujual.dev@yahoo.com</a></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <img src="fravora.png" alt="" />
+      <span>© 2026 Fravora</span>
+    </div>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+    btn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      btn.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+  </script>
+</body>
+</html>

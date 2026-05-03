@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fravora – Photo Frame & Radio</title>
+  <link rel="icon" type="image/png" href="fravora.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0e0b14;
+      --bg2:       #13101c;
+      --surface:   #1c1728;
+      --border:    #2e2640;
+      --accent:    #9b5de5;
+      --accent2:   #c77dff;
+      --glow:      rgba(155, 93, 229, 0.35);
+      --text:      #e8e0f5;
+      --muted:     #8b7fa8;
+      --nav-bg:    rgba(14, 11, 20, 0.85);
+    }
+    [data-theme="light"] {
+      --bg:        #f5f0ff;
+      --bg2:       #ede6ff;
+      --surface:   #ffffff;
+      --border:    #d4c8f0;
+      --accent:    #7c3aed;
+      --accent2:   #9b5de5;
+      --glow:      rgba(124, 58, 237, 0.2);
+      --text:      #1a1033;
+      --muted:     #6b5b8a;
+      --nav-bg:    rgba(245, 240, 255, 0.88);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 0.6rem;
+      text-decoration: none;
+    }
+    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-logo span {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700; font-size: 1.15rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: 0.9rem; font-weight: 500;
+      padding: 0.4rem 0.85rem; border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--surface); }
+
+    /* Theme toggle */
+    .theme-btn {
+      margin-left: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 36px; height: 36px; border-radius: 8px;
+      cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      text-align: center;
+    }
+
+    /* Ambient background orbs */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .orb1 {
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(155,93,229,0.18) 0%, transparent 70%);
+      top: 10%; left: -10%;
+      animation-delay: 0s;
+    }
+    .orb2 {
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(199,125,255,0.12) 0%, transparent 70%);
+      bottom: 15%; right: -5%;
+      animation-delay: -4s;
+    }
+    .orb3 {
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(155,93,229,0.1) 0%, transparent 70%);
+      top: 50%; left: 55%;
+      animation-delay: -8s;
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, -20px) scale(1.05); }
+    }
+
+    /* Subtle grid overlay */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.25;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+
+    .hero-logo {
+      width: 110px; height: 110px;
+      border-radius: 28px;
+      box-shadow: 0 0 60px var(--glow), 0 0 120px rgba(155,93,229,0.15);
+      margin-bottom: 2rem;
+      animation: logoFloat 6s ease-in-out infinite;
+    }
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .hero-badge span { color: var(--accent); font-size: 0.6rem; }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 300;
+      color: var(--muted); line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.85rem 1.8rem;
+      border-radius: 12px;
+      font-weight: 600; font-size: 0.95rem;
+      box-shadow: 0 4px 24px var(--glow);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px var(--glow);
+      background: var(--accent2);
+    }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 5rem 2rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .section-label {
+      text-align: center;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700; text-align: center;
+      margin-bottom: 3.5rem; line-height: 1.2;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--glow) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(155,93,229,0.12); }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      font-size: 1.75rem; margin-bottom: 1rem;
+      display: block;
+    }
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    .feature-card p {
+      font-size: 0.88rem; color: var(--muted);
+      line-height: 1.65; position: relative;
+    }
+
+    /* ── TIERS ── */
+    .tiers {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .tiers-inner { max-width: 780px; margin: 0 auto; }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 560px) { .tier-grid { grid-template-columns: 1fr; } }
+
+    .tier-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+    }
+    .tier-card.pro {
+      border-color: var(--accent);
+      box-shadow: 0 0 32px rgba(155,93,229,0.15);
+    }
+    .tier-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .tier-card.pro .tier-name { color: var(--accent); }
+    .tier-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem; font-weight: 800;
+      margin-bottom: 1.25rem;
+    }
+    .tier-price small {
+      font-size: 0.8rem; font-weight: 400;
+      color: var(--muted); font-family: 'DM Sans', sans-serif;
+    }
+    .tier-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .tier-features li {
+      font-size: 0.88rem; color: var(--muted);
+      display: flex; gap: 0.6rem; align-items: flex-start;
+    }
+    .tier-features li::before { content: '✓'; color: var(--accent); flex-shrink: 0; font-weight: 700; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid var(--border);
+      max-width: 1100px; margin: 0 auto;
+    }
+    .footer-left {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; color: var(--muted);
+    }
+    .footer-left img { width: 22px; height: 22px; border-radius: 5px; }
+    footer a {
+      font-size: 0.85rem; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    footer a:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <img src="fravora.png" alt="Fravora logo" />
+      <span>Fravora</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span>●</span> Android App</div>
+      <img src="fravora.png" alt="Fravora" class="hero-logo" />
+      <h1>Your photos.<br /><em>Always on display.</em></h1>
+      <p class="hero-sub">
+        Turn your Android device into a beautiful photo frame with built-in radio streaming,
+        smart overlays, and voice control.
+      </p>
+      <a class="hero-cta" href="https://play.google.com/store" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.14-.21l12.44-7.19-3.13-3.12-11.45 10.52zM20.65 9.22l-3.34-1.93-3.51 3.5 3.51 3.51 3.37-1.95a2 2 0 0 0-.03-3.13zM1 1.45A2 2 0 0 0 .5 2.87v18.27a2 2 0 0 0 .5 1.41L14.4 12 1 1.45zm13.39 9.14L2.82.38A2 2 0 0 0 1 .17L14.39 10.59l.01-4z"/></svg>
+        Get it on Google Play
+      </a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <p class="section-label">What it does</p>
+    <h2 class="section-title">Everything your idle screen deserves</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <span class="feature-icon">🖼️</span>
+        <h3>Smart Slideshow</h3>
+        <p>Display photos from your device, network shares, Google Photos, OneDrive, or Dropbox — all in one seamless slideshow.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📻</span>
+        <h3>Built-in Radio</h3>
+        <p>Stream radio stations directly from the app while your photos play. Music and memories, together.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌤️</span>
+        <h3>Weather Overlay</h3>
+        <p>Show live local weather right on your frame. Always know the forecast at a glance.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🎙️</span>
+        <h3>Voice Control</h3>
+        <p>Hands-free control with wake-phrase detection processed entirely on-device. No mic data ever leaves without your command.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📍</span>
+        <h3>Metadata Overlay</h3>
+        <p>Display the date and location each photo was taken, pulled from EXIF data — privately, locally, beautifully.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🔒</span>
+        <h3>Privacy First</h3>
+        <p>Your photos never leave your device. All credentials are encrypted locally. No personal data is collected or sold.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIERS -->
+  <section class="tiers">
+    <div class="tiers-inner">
+      <p class="section-label">Plans</p>
+      <h2 class="section-title">Free to start, Pro when you're ready</h2>
+      <div class="tier-grid">
+        <div class="tier-card">
+          <p class="tier-name">Free</p>
+          <p class="tier-price">$0 <small>/ forever</small></p>
+          <ul class="tier-features">
+            <li>Local & network photo sources</li>
+            <li>Radio streaming</li>
+            <li>Basic slideshow controls</li>
+            <li>Earn Pro time by watching optional ads</li>
+          </ul>
+        </div>
+        <div class="tier-card pro">
+          <p class="tier-name">Pro</p>
+          <p class="tier-price">Unlock <small>via purchase or ad</small></p>
+          <ul class="tier-features">
+            <li>Everything in Free</li>
+            <li>Cloud sources (Google Photos, OneDrive, Dropbox)</li>
+            <li>Weather overlay</li>
+            <li>Metadata overlay</li>
+            <li>Voice control</li>
+            <li>Advanced scheduling</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">
+      <img src="fravora.png" alt="" />
+      <span>© 2026 Fravora</span>
+    </div>
+    <a href="privacy.html">Privacy Policy</a>
+  </footer>
+
+  <script>
+    const btn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+    btn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      btn.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+  </script>
+</body>
+</html>
