@@ -4,44 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fravora – Photo Frame & Radio</title>
+  <meta name="description" content="Turn your Android device into a beautiful photo frame with built-in radio streaming, smart overlays, and voice control. Privacy-first, no interruptions." />
   <link rel="icon" type="image/png" href="fravora.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:        #0e0b14;
-      --bg2:       #13101c;
-      --surface:   #1c1728;
-      --border:    #2e2640;
-      --accent:    #9b5de5;
-      --accent2:   #c77dff;
-      --glow:      rgba(155, 93, 229, 0.35);
-      --text:      #e8e0f5;
-      --muted:     #8b7fa8;
-      --nav-bg:    rgba(14, 11, 20, 0.85);
+      --bg:      #0e0b14;
+      --bg2:     #13101c;
+      --surface: #1c1728;
+      --border:  #2e2640;
+      --accent:  #9b5de5;
+      --accent2: #c77dff;
+      --glow:    rgba(155,93,229,0.35);
+      --text:    #e8e0f5;
+      --muted:   #8b7fa8;
+      --nav-bg:  rgba(14,11,20,0.85);
+      --green:   #4ade80;
     }
     [data-theme="light"] {
-      --bg:        #f5f0ff;
-      --bg2:       #ede6ff;
-      --surface:   #ffffff;
-      --border:    #d4c8f0;
-      --accent:    #7c3aed;
-      --accent2:   #9b5de5;
-      --glow:      rgba(124, 58, 237, 0.2);
-      --text:      #1a1033;
-      --muted:     #6b5b8a;
-      --nav-bg:    rgba(245, 240, 255, 0.88);
+      --bg:      #f5f0ff;
+      --bg2:     #ede6ff;
+      --surface: #ffffff;
+      --border:  #d4c8f0;
+      --accent:  #7c3aed;
+      --accent2: #9b5de5;
+      --glow:    rgba(124,58,237,0.2);
+      --text:    #1a1033;
+      --muted:   #6b5b8a;
+      --nav-bg:  rgba(245,240,255,0.88);
+      --green:   #16a34a;
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
       overflow-x: hidden;
@@ -51,24 +52,15 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem;
-      height: 64px;
+      padding: 0 2rem; height: 64px;
       background: var(--nav-bg);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       transition: background 0.3s, border-color 0.3s;
     }
-    .nav-logo {
-      display: flex; align-items: center; gap: 0.6rem;
-      text-decoration: none;
-    }
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
     .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
-    .nav-logo span {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700; font-size: 1.15rem;
-      color: var(--text);
-      letter-spacing: 0.02em;
-    }
+    .nav-logo span { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.15rem; color: var(--text); letter-spacing: 0.02em; }
     .nav-links { display: flex; align-items: center; gap: 0.25rem; }
     .nav-links a {
       text-decoration: none; color: var(--muted);
@@ -77,13 +69,9 @@
       transition: color 0.2s, background 0.2s;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--surface); }
-
-    /* Theme toggle */
     .theme-btn {
-      margin-left: 0.75rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--muted);
+      margin-left: 0.75rem; background: var(--surface);
+      border: 1px solid var(--border); color: var(--muted);
       width: 36px; height: 36px; border-radius: 8px;
       cursor: pointer; font-size: 1rem;
       display: flex; align-items: center; justify-content: center;
@@ -97,125 +85,76 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 6rem 2rem 4rem;
-      position: relative;
-      text-align: center;
+      position: relative; text-align: center;
     }
-
-    /* Ambient background orbs */
     .orb {
       position: absolute; border-radius: 50%;
       filter: blur(80px); pointer-events: none;
       animation: drift 12s ease-in-out infinite alternate;
     }
-    .orb1 {
-      width: 480px; height: 480px;
-      background: radial-gradient(circle, rgba(155,93,229,0.18) 0%, transparent 70%);
-      top: 10%; left: -10%;
-      animation-delay: 0s;
-    }
-    .orb2 {
-      width: 360px; height: 360px;
-      background: radial-gradient(circle, rgba(199,125,255,0.12) 0%, transparent 70%);
-      bottom: 15%; right: -5%;
-      animation-delay: -4s;
-    }
-    .orb3 {
-      width: 240px; height: 240px;
-      background: radial-gradient(circle, rgba(155,93,229,0.1) 0%, transparent 70%);
-      top: 50%; left: 55%;
-      animation-delay: -8s;
-    }
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, -20px) scale(1.05); }
-    }
+    .orb1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(155,93,229,0.18) 0%, transparent 70%); top: 10%; left: -10%; }
+    .orb2 { width: 360px; height: 360px; background: radial-gradient(circle, rgba(199,125,255,0.12) 0%, transparent 70%); bottom: 15%; right: -5%; animation-delay: -4s; }
+    .orb3 { width: 240px; height: 240px; background: radial-gradient(circle, rgba(155,93,229,0.1) 0%, transparent 70%); top: 50%; left: 55%; animation-delay: -8s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,-20px) scale(1.05); } }
 
-    /* Subtle grid overlay */
     .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 48px 48px;
-      opacity: 0.25;
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px; opacity: 0.25;
       mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 0%, transparent 100%);
     }
 
     .hero-content { position: relative; z-index: 1; max-width: 680px; }
 
     .hero-logo {
-      width: 110px; height: 110px;
-      border-radius: 28px;
+      width: 110px; height: 110px; border-radius: 28px;
       box-shadow: 0 0 60px var(--glow), 0 0 120px rgba(155,93,229,0.15);
       margin-bottom: 2rem;
       animation: logoFloat 6s ease-in-out infinite;
     }
-    @keyframes logoFloat {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-8px); }
-    }
+    @keyframes logoFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.4rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.3rem 0.9rem;
-      font-size: 0.78rem; font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.05em; text-transform: uppercase;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.3rem 0.9rem;
+      font-size: 0.78rem; font-weight: 500; color: var(--muted);
+      margin-bottom: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase;
     }
     .hero-badge span { color: var(--accent); font-size: 0.6rem; }
 
     h1 {
       font-family: 'Syne', sans-serif;
       font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.02em; margin-bottom: 1.25rem;
     }
     h1 em {
       font-style: normal;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
+    .hero-sub { font-size: 1.1rem; font-weight: 300; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
 
-    .hero-sub {
-      font-size: 1.1rem; font-weight: 300;
-      color: var(--muted); line-height: 1.7;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-cta {
+    .cta-btn {
       display: inline-flex; align-items: center; gap: 0.6rem;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      padding: 0.85rem 1.8rem;
-      border-radius: 12px;
+      background: var(--accent); color: #fff; text-decoration: none;
+      padding: 0.85rem 1.8rem; border-radius: 12px;
       font-weight: 600; font-size: 0.95rem;
       box-shadow: 0 4px 24px var(--glow);
       transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
     }
-    .hero-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px var(--glow);
-      background: var(--accent2);
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px var(--glow); background: var(--accent2); }
+    .cta-btn svg { width: 18px; height: 18px; }
+    .cta-btn.outline {
+      background: transparent; border: 1px solid var(--accent); color: var(--accent);
+      box-shadow: none;
     }
-    .hero-cta svg { width: 18px; height: 18px; }
+    .cta-btn.outline:hover { background: var(--accent); color: #fff; box-shadow: 0 8px 32px var(--glow); }
 
-    /* ── FEATURES ── */
-    .features {
-      padding: 5rem 2rem;
-      max-width: 1100px; margin: 0 auto;
-    }
+    /* ── SHARED SECTION STYLES ── */
     .section-label {
-      text-align: center;
-      font-size: 0.75rem; font-weight: 600;
+      text-align: center; font-size: 0.75rem; font-weight: 600;
       letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--accent); margin-bottom: 1rem;
     }
@@ -226,116 +165,168 @@
       margin-bottom: 3.5rem; line-height: 1.2;
     }
 
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
-
+    /* ── FEATURES ── */
+    .features { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
     .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
       transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
       position: relative; overflow: hidden;
     }
     .feature-card::before {
-      content: '';
-      position: absolute; inset: 0;
+      content: ''; position: absolute; inset: 0;
       background: linear-gradient(135deg, var(--glow) 0%, transparent 60%);
       opacity: 0; transition: opacity 0.3s;
     }
     .feature-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 32px rgba(155,93,229,0.12); }
     .feature-card:hover::before { opacity: 1; }
+    .feature-icon { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
+    .feature-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; position: relative; }
+    .feature-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; position: relative; }
 
-    .feature-icon {
-      font-size: 1.75rem; margin-bottom: 1rem;
-      display: block;
-    }
-    .feature-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem; font-weight: 700;
-      margin-bottom: 0.5rem;
-      position: relative;
-    }
-    .feature-card p {
-      font-size: 0.88rem; color: var(--muted);
-      line-height: 1.65; position: relative;
-    }
-
-    /* ── TIERS ── */
-    .tiers {
+    /* ── DIFFERENT ── */
+    .different {
       padding: 5rem 2rem;
       background: var(--bg2);
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
-    .tiers-inner { max-width: 780px; margin: 0 auto; }
-
-    .tier-grid {
+    .different-inner { max-width: 900px; margin: 0 auto; }
+    .different-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
     }
-    @media (max-width: 560px) { .tier-grid { grid-template-columns: 1fr; } }
+    .diff-card {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      padding: 1.25rem; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+    }
+    .diff-icon {
+      font-size: 1.25rem; flex-shrink: 0;
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(155,93,229,0.12);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .diff-card h4 { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .diff-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 
-    .tier-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.75rem;
+    /* ── COMPARISON TABLE ── */
+    .comparison { padding: 5rem 2rem; max-width: 860px; margin: 0 auto; }
+    .comp-table { width: 100%; border-collapse: collapse; }
+    .comp-table th {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      padding: 0.85rem 1.25rem; text-align: left;
+      background: var(--surface); border-bottom: 2px solid var(--border);
+      font-size: 0.85rem;
     }
-    .tier-card.pro {
-      border-color: var(--accent);
-      box-shadow: 0 0 32px rgba(155,93,229,0.15);
-    }
-    .tier-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.75rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 0.5rem;
-    }
-    .tier-card.pro .tier-name { color: var(--accent); }
-    .tier-price {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.6rem; font-weight: 800;
-      margin-bottom: 1.25rem;
-    }
-    .tier-price small {
-      font-size: 0.8rem; font-weight: 400;
-      color: var(--muted); font-family: 'DM Sans', sans-serif;
-    }
-    .tier-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .tier-features li {
+    .comp-table th:not(:first-child) { text-align: center; }
+    .comp-table th.pro-col { color: var(--accent); }
+    .comp-table td {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
       font-size: 0.88rem; color: var(--muted);
-      display: flex; gap: 0.6rem; align-items: flex-start;
     }
-    .tier-features li::before { content: '✓'; color: var(--accent); flex-shrink: 0; font-weight: 700; }
+    .comp-table td:not(:first-child) { text-align: center; }
+    .comp-table tr:last-child td { border-bottom: none; }
+    .comp-table tr:hover td { background: var(--surface); }
+    .comp-table .check { color: var(--green); font-size: 1rem; }
+    .comp-table .cross { color: var(--muted); opacity: 0.4; font-size: 1rem; }
+    .comp-table .feature-name { color: var(--text); }
+    .comp-table .section-row td {
+      font-family: 'Syne', sans-serif; font-size: 0.72rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--accent); padding-top: 1.5rem; padding-bottom: 0.4rem;
+      background: transparent !important;
+    }
+    .comp-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+    }
+
+    /* ── FOUNDER ── */
+    .founder {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .founder-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+    .founder-quote {
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      font-weight: 300; line-height: 1.8;
+      color: var(--muted); font-style: italic;
+      margin-bottom: 1.5rem; position: relative;
+    }
+    .founder-quote::before {
+      content: '\201C';
+      font-family: 'Syne', sans-serif;
+      font-size: 5rem; line-height: 1;
+      color: var(--accent); opacity: 0.2;
+      position: absolute; top: -1.5rem; left: -0.5rem;
+    }
+    .founder-sig { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--text); }
+    .founder-sig small { font-family: 'DM Sans', sans-serif; font-weight: 400; color: var(--muted); font-size: 0.8rem; display: block; margin-top: 0.15rem; }
+
+    /* ── FAQ ── */
+    .faq { padding: 5rem 2rem; max-width: 720px; margin: 0 auto; }
+    .faq-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left;
+      background: none; border: none; cursor: pointer;
+      padding: 1.1rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.92rem;
+      color: var(--text); transition: color 0.2s;
+    }
+    .faq-q:hover { color: var(--accent); }
+    .faq-q .chevron { flex-shrink: 0; width: 18px; height: 18px; transition: transform 0.3s; color: var(--muted); }
+    .faq-item.open .faq-q .chevron { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      font-size: 0.88rem; color: var(--muted); line-height: 1.7;
+      padding: 0 1.25rem;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 1.25rem 1.1rem; }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      padding: 5rem 2rem; text-align: center;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+    .bottom-cta h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800; margin-bottom: 1rem;
+    }
+    .bottom-cta p { color: var(--muted); font-size: 1rem; margin-bottom: 2rem; }
+    .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
     /* ── FOOTER ── */
     footer {
-      padding: 2.5rem 2rem;
+      padding: 2rem 2rem;
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 1rem;
       border-top: 1px solid var(--border);
       max-width: 1100px; margin: 0 auto;
     }
-    .footer-left {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.85rem; color: var(--muted);
-    }
+    .footer-left { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); }
     .footer-left img { width: 22px; height: 22px; border-radius: 5px; }
-    footer a {
-      font-size: 0.85rem; color: var(--muted);
-      text-decoration: none; transition: color 0.2s;
-    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    footer a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
     footer a:hover { color: var(--accent); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       nav { padding: 0 1rem; }
       .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
+      .comp-table td, .comp-table th { padding: 0.65rem 0.75rem; }
     }
   </style>
 </head>
@@ -363,10 +354,11 @@
       <img src="fravora.png" alt="Fravora" class="hero-logo" />
       <h1>Your photos.<br /><em>Always on display.</em></h1>
       <p class="hero-sub">
-        Turn your Android device into a beautiful photo frame with built-in radio streaming,
-        smart overlays, and voice control.
+        Turn your Android device into a beautiful, silent photo frame
+        with built-in radio streaming, smart overlays, and voice control.
+        No interruptions. Ever.
       </p>
-      <a class="hero-cta" href="https://play.google.com/store/apps/details?id=com.aniujual.fravora" target="_blank" rel="noopener">
+      <a class="cta-btn" href="https://play.google.com/store/apps/details?id=com.aniujual.fravora" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.14-.21l12.44-7.19-3.13-3.12-11.45 10.52zM20.65 9.22l-3.34-1.93-3.51 3.5 3.51 3.51 3.37-1.95a2 2 0 0 0-.03-3.13zM1 1.45A2 2 0 0 0 .5 2.87v18.27a2 2 0 0 0 .5 1.41L14.4 12 1 1.45zm13.39 9.14L2.82.38A2 2 0 0 0 1 .17L14.39 10.59l.01-4z"/></svg>
         Get it on Google Play
       </a>
@@ -381,7 +373,7 @@
       <div class="feature-card">
         <span class="feature-icon">🖼️</span>
         <h3>Smart Slideshow</h3>
-        <p>Display photos from your device, network shares, Google Photos, OneDrive, or Dropbox — all in one seamless slideshow.</p>
+        <p>Display photos from your device, SMB network shares, Google Photos, OneDrive, or Dropbox — all in one seamless, uninterrupted slideshow.</p>
       </div>
       <div class="feature-card">
         <span class="feature-icon">📻</span>
@@ -391,7 +383,7 @@
       <div class="feature-card">
         <span class="feature-icon">🌤️</span>
         <h3>Weather Overlay</h3>
-        <p>Show live local weather right on your frame. Always know the forecast at a glance.</p>
+        <p>Show live local weather right on your frame. Always know the forecast at a glance, without touching your phone.</p>
       </div>
       <div class="feature-card">
         <span class="feature-icon">🎙️</span>
@@ -404,42 +396,176 @@
         <p>Display the date and location each photo was taken, pulled from EXIF data — privately, locally, beautifully.</p>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">🔒</span>
-        <h3>Privacy First</h3>
-        <p>Your photos never leave your device. All credentials are encrypted locally. No personal data is collected or sold.</p>
+        <span class="feature-icon">⏰</span>
+        <h3>Smart Scheduling</h3>
+        <p>Set the frame to turn on and off automatically. It works when you need it, sleeps when you don't.</p>
       </div>
     </div>
   </section>
 
-  <!-- TIERS -->
-  <section class="tiers">
-    <div class="tiers-inner">
-      <p class="section-label">Plans</p>
-      <h2 class="section-title">Free to start, Pro when you're ready</h2>
-      <div class="tier-grid">
-        <div class="tier-card">
-          <p class="tier-name">Free</p>
-          <p class="tier-price">$0 <small>/ forever</small></p>
-          <ul class="tier-features">
-            <li>Local & network photo sources</li>
-            <li>Radio streaming</li>
-            <li>Basic slideshow controls</li>
-            <li>Earn Pro time by watching optional ads</li>
-          </ul>
+  <!-- WHAT MAKES FRAVORA DIFFERENT -->
+  <section class="different">
+    <div class="different-inner">
+      <p class="section-label">Why Fravora</p>
+      <h2 class="section-title">Built to stay out of your way</h2>
+      <div class="different-grid">
+        <div class="diff-card">
+          <div class="diff-icon">🚫</div>
+          <div>
+            <h4>No forced ads</h4>
+            <p>Ads only appear if you choose to watch one to unlock Pro time. Your slideshow is never interrupted.</p>
+          </div>
         </div>
-        <div class="tier-card pro">
-          <p class="tier-name">Pro</p>
-          <p class="tier-price">Unlock <small>via purchase or ad</small></p>
-          <ul class="tier-features">
-            <li>Everything in Free</li>
-            <li>Cloud sources (Google Photos, OneDrive, Dropbox)</li>
-            <li>Weather overlay</li>
-            <li>Metadata overlay</li>
-            <li>Voice control</li>
-            <li>Advanced scheduling</li>
-          </ul>
+        <div class="diff-card">
+          <div class="diff-icon">📡</div>
+          <div>
+            <h4>Works offline</h4>
+            <p>Local and SMB photos work with zero internet connection. Your frame keeps running no matter what.</p>
+          </div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">🔐</div>
+          <div>
+            <h4>Your photos stay yours</h4>
+            <p>Photos never leave your device. Credentials are encrypted locally. Nothing is sold or profiled.</p>
+          </div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">⚡</div>
+          <div>
+            <h4>Appliance-grade reliability</h4>
+            <p>Designed to run 24/7 unattended. Set it up once and forget it — it just works.</p>
+          </div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">☁️</div>
+          <div>
+            <h4>Multiple sources, one frame</h4>
+            <p>Mix local storage, NAS shares, and cloud albums in a single slideshow. No other app does this.</p>
+          </div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">🎛️</div>
+          <div>
+            <h4>No nag screens</h4>
+            <p>Free tier is genuinely usable. Pro unlocks more — but it never nags you about it.</p>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section class="comparison">
+    <p class="section-label">Plans</p>
+    <h2 class="section-title">Free to start, Pro when you're ready</h2>
+    <div class="comp-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Free</th>
+            <th class="pro-col">Pro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-row"><td colspan="3">Photo Sources</td></tr>
+          <tr><td class="feature-name">Local storage</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">SMB / NAS network shares</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">Google Photos</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">Microsoft OneDrive</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">Dropbox</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr class="section-row"><td colspan="3">Slideshow</td></tr>
+          <tr><td class="feature-name">Uninterrupted slideshow</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">Radio streaming</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">Smart scheduling (on/off times)</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr class="section-row"><td colspan="3">Overlays</td></tr>
+          <tr><td class="feature-name">Weather overlay</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="feature-name">Photo metadata (date &amp; location)</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr class="section-row"><td colspan="3">Controls</td></tr>
+          <tr><td class="feature-name">Voice control</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr class="section-row"><td colspan="3">Unlock Pro</td></tr>
+          <tr><td class="feature-name">Watch an optional ad for temporary Pro</td><td><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
+          <tr><td class="feature-name">One-time Pro purchase</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOUNDER'S NOTE -->
+  <section class="founder">
+    <div class="founder-inner">
+      <p class="section-label">From the developer</p>
+      <p class="founder-quote">
+        I built Fravora because every other frame app I tried interrupted my slideshow with paywalls, forced ads, or required a cloud subscription just to show photos from my own NAS. I wanted something that felt like an appliance — reliable, respectful, and beautiful. So I made it.
+      </p>
+      <p class="founder-sig">
+        aniujual
+        <small>Solo developer, Fravora</small>
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <p class="section-label">FAQ</p>
+    <h2 class="section-title">Common questions</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">
+          Does it show ads?
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">Only if you choose to watch one. Free users can tap a button to watch a rewarded ad in exchange for temporary Pro access — but the slideshow itself is never interrupted by ads. Ever.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Does it work offline?
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">Yes. Local storage and SMB/NAS network shares work entirely offline. Cloud sources (Google Photos, OneDrive, Dropbox) require internet for syncing, but locally cached photos continue to display even when connectivity drops.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Does it support SMB / NAS?
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">Yes — SMB network shares are supported on the free tier. Just enter your share credentials in the app and pick the folders you want included in the slideshow.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Will my photos be uploaded to any server?
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">No. Your photos are never uploaded to Fravora's servers. When you connect a cloud account like Google Photos, the app fetches photos directly from that provider to display locally — nothing passes through us.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          Why is voice control a Pro feature?
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">Voice control uses Google's Speech Recognition service for command processing, which requires active integration and ongoing maintenance. It's reserved for Pro to keep the free tier sustainable without forced ads.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          What devices does it run on?
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-a">Fravora runs on Android phones and tablets. It works best on a device mounted on a stand or docked, but you can use any Android device you'd like to repurpose as a frame.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <h2>Ready to bring your photos to life?</h2>
+    <p>Free to download. No account required. Works in minutes.</p>
+    <div class="cta-group">
+      <a class="cta-btn" href="https://play.google.com/store/apps/details?id=com.aniujual.fravora" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2 2 0 0 0 2.14-.21l12.44-7.19-3.13-3.12-11.45 10.52zM20.65 9.22l-3.34-1.93-3.51 3.5 3.51 3.51 3.37-1.95a2 2 0 0 0-.03-3.13zM1 1.45A2 2 0 0 0 .5 2.87v18.27a2 2 0 0 0 .5 1.41L14.4 12 1 1.45zm13.39 9.14L2.82.38A2 2 0 0 0 1 .17L14.39 10.59l.01-4z"/></svg>
+        Get it on Google Play
+      </a>
+      <a class="cta-btn outline" href="privacy.html">Privacy Policy</a>
     </div>
   </section>
 
@@ -448,21 +574,34 @@
       <img src="fravora.png" alt="" />
       <span>© 2026 Fravora</span>
     </div>
-    <a href="privacy.html">Privacy Policy</a>
+    <div class="footer-links">
+      <a href="mailto:aniujual.dev@yahoo.com">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
   </footer>
 
   <script>
+    // Theme toggle
     const btn = document.getElementById('themeBtn');
     const html = document.documentElement;
     const saved = localStorage.getItem('theme') || 'dark';
     html.setAttribute('data-theme', saved);
     btn.textContent = saved === 'dark' ? '☀️' : '🌙';
-
     btn.addEventListener('click', () => {
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
       btn.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
     });
   </script>
 </body>
