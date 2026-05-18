@@ -561,8 +561,27 @@
       <a href="manual.html" class="active">User Manual</a>
       <a href="privacy.html">Privacy Policy</a>
     </div>
+    <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
     <button class="mobile-menu-btn" onclick="toggleSidebar()" id="menuBtn">☰ Menu</button>
   </div>
+  /* Theme toggle button */
+  .theme-btn {
+    background: none;
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    border-radius: 50%;
+    font-size: 1.3em;
+    width: 2.2em;
+    height: 2.2em;
+    margin-left: 0.5em;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    vertical-align: middle;
+  }
+  .theme-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
 </nav>
 
 <!-- LAYOUT -->
@@ -1169,6 +1188,18 @@
 </footer>
 
 <script>
+    // Theme toggle
+    const themeBtn = document.getElementById('themeBtn');
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', savedTheme);
+    themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    themeBtn.addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+    });
   // Sidebar toggle for mobile
   function toggleSidebar() {
     const s = document.getElementById('sidebar');
