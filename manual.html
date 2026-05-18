@@ -1,675 +1,1206 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <title>User Manual - Fravora</title>
   <meta name="description" content="Fravora user manual: setup, sources, albums, slideshow, overlays, radio, voice control, PRO features, and troubleshooting." />
-  <link rel="icon" type="image/png" href="fravora.png" />
+  <title>User Manual – Fravora</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:        #0e0b14;
-      --bg2:       #13101c;
-      --surface:   #1c1728;
-      --border:    #2e2640;
-      --accent:    #9b5de5;
-      --accent2:   #c77dff;
-      --glow:      rgba(155, 93, 229, 0.35);
-      --text:      #e8e0f5;
-      --muted:     #8b7fa8;
-      --nav-bg:    rgba(14, 11, 20, 0.85);
-      --green:     #4ade80;
+      --bg: #0f1117;
+      --bg-2: #161b27;
+      --bg-3: #1e2436;
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(139,92,246,0.3);
+      --text: #e8eaf0;
+      --text-muted: #8b92a8;
+      --text-faint: #555d72;
+      --accent: #8b5cf6;
+      --accent-bright: #a78bfa;
+      --accent-glow: rgba(139,92,246,0.15);
+      --accent-2: #6366f1;
+      --green: #34d399;
+      --green-bg: rgba(52,211,153,0.08);
+      --yellow: #fbbf24;
+      --yellow-bg: rgba(251,191,36,0.08);
+      --red: #f87171;
+      --red-bg: rgba(248,113,113,0.08);
+      --blue: #60a5fa;
+      --blue-bg: rgba(96,165,250,0.08);
+      --radius: 10px;
+      --sidebar-width: 260px;
+      --topbar-height: 60px;
     }
-    [data-theme="light"] {
-      --bg:        #f5f0ff;
-      --bg2:       #ede6ff;
-      --surface:   #ffffff;
-      --border:    #d4c8f0;
-      --accent:    #7c3aed;
-      --accent2:   #9b5de5;
-      --glow:      rgba(124, 58, 237, 0.2);
-      --text:      #1a1033;
-      --muted:     #6b5b8a;
-      --nav-bg:    rgba(245, 240, 255, 0.88);
-      --green:     #16a34a;
-    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
       min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
     }
 
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem; height: 64px;
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .nav-logo {
-      display: flex; align-items: center; gap: 0.6rem;
-      text-decoration: none;
-    }
-    .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
-    .nav-logo span {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700; font-size: 1.15rem;
-      color: var(--text); letter-spacing: 0.02em;
-    }
-    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
-    .nav-links a {
-      text-decoration: none; color: var(--muted);
-      font-size: 0.9rem; font-weight: 500;
-      padding: 0.4rem 0.85rem; border-radius: 6px;
-      transition: color 0.2s, background 0.2s;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--surface); }
-    .theme-btn {
-      margin-left: 0.75rem;
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--muted); width: 36px; height: 36px; border-radius: 8px;
-      cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-    .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
-
-    .page-header {
-      padding: 8rem 2rem 3rem;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg2);
-    }
-    .page-header h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800; margin-bottom: 0.5rem;
-    }
-    .page-header p { color: var(--muted); font-size: 0.92rem; }
-
-    .content {
-      max-width: 1180px; margin: 0 auto;
-      padding: 2.2rem 2rem 5rem;
-    }
-
-    .manual-intro {
-      font-size: 0.92rem;
-      color: var(--muted);
-      line-height: 1.75;
-      margin-bottom: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem 1.1rem;
-    }
-
-    .manual-layout {
-      display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
-      gap: 1.2rem;
-      align-items: start;
-    }
-
-    .settings-menu {
+    /* ── TOP NAV ── */
+    .topnav {
       position: sticky;
-      top: 84px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1rem;
-      max-height: calc(100vh - 96px);
-      overflow: auto;
+      top: 0;
+      z-index: 100;
+      height: var(--topbar-height);
+      background: rgba(15,17,23,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+    .topnav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 17px;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+    .topnav-logo img { width: 28px; height: 28px; border-radius: 7px; }
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .topnav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 7px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .topnav-links a:hover { color: var(--text); background: var(--bg-3); }
+    .topnav-links a.active { color: var(--accent-bright); }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      gap: 40px;
     }
 
-    .menu-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.74rem;
-      font-weight: 700;
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      padding: 32px 0 80px;
+    }
+    .sidebar-inner {
+      position: sticky;
+      top: calc(var(--topbar-height) + 16px);
+      max-height: calc(100vh - var(--topbar-height) - 32px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--bg-3) transparent;
+    }
+    .sidebar-inner::-webkit-scrollbar { width: 4px; }
+    .sidebar-inner::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 4px; }
+
+    .sidebar-section {
+      margin-bottom: 28px;
+    }
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 0.11em;
-      color: var(--accent);
-      margin-bottom: 0.65rem;
+      color: var(--text-faint);
+      padding: 0 12px 8px;
     }
-
-    .menu-group {
+    .sidebar-nav {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.28rem;
-      margin-bottom: 1rem;
+      gap: 1px;
     }
-
-    .menu-link {
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 12px;
+      border-radius: 8px;
       text-decoration: none;
-      color: var(--muted);
-      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1.3;
+    }
+    .sidebar-nav a .icon { font-size: 15px; flex-shrink: 0; width: 20px; text-align: center; }
+    .sidebar-nav a:hover { color: var(--text); background: var(--bg-2); }
+    .sidebar-nav a.active {
+      color: var(--accent-bright);
+      background: var(--accent-glow);
+    }
+    .sidebar-nav a .pro-badge {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--accent-bright);
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* ── CONTENT ── */
+    .content {
+      flex: 1;
+      min-width: 0;
+      padding: 40px 0 100px;
+    }
+
+    .content-header {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .content-header .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
       font-weight: 500;
-      padding: 0.5rem 0.65rem;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      color: var(--accent-bright);
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
     }
-
-    .menu-link:hover {
+    .content-header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
       color: var(--text);
-      background: rgba(155, 93, 229, 0.09);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .content-header p {
+      color: var(--text-muted);
+      font-size: 15px;
+      max-width: 580px;
+    }
+    .content-header .meta {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--text-faint);
     }
 
-    .menu-link.active {
+    /* ── SECTIONS ── */
+    .section {
+      margin-bottom: 64px;
+      scroll-margin-top: calc(var(--topbar-height) + 24px);
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
       color: var(--text);
-      background: rgba(155, 93, 229, 0.16);
-      border-color: rgba(155, 93, 229, 0.35);
+    }
+    .section-number {
+      font-size: 12px;
+      color: var(--text-faint);
+      font-family: 'DM Mono', monospace;
     }
 
-    .manual-main {
-      background: var(--surface);
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin: 28px 0 10px;
+      letter-spacing: -0.1px;
+    }
+    h3:first-child { margin-top: 0; }
+
+    p { color: var(--text-muted); margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ── STEPS ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      background: var(--bg-2);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.1rem 1.15rem;
+      border-radius: var(--radius);
+      padding: 14px 16px;
     }
+    .step-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      color: var(--accent-bright);
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'DM Mono', monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-body { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+    .step-body strong { color: var(--text); font-weight: 500; }
 
-    .manual-section { margin-bottom: 2.6rem; }
-    .manual-section h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.25rem; font-weight: 700;
-      margin-bottom: 0.9rem;
-      border-top: 1px solid var(--border);
-      padding-top: 1.5rem;
-      scroll-margin-top: 84px;
-    }
-    .manual-main .manual-section:first-child h2 {
-      border-top: none;
-      padding-top: 0;
-    }
-    .manual-section h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.95rem; font-weight: 700;
-      color: var(--accent2);
-      margin: 1.1rem 0 0.5rem;
-    }
-    .manual-section p {
-      font-size: 0.92rem; line-height: 1.75;
-      color: var(--muted); margin-bottom: 0.75rem;
-    }
-    .manual-section ul, .manual-section ol {
-      padding-left: 1.25rem;
-      display: flex; flex-direction: column; gap: 0.45rem;
-      margin-bottom: 0.75rem;
-    }
-    .manual-section li {
-      font-size: 0.88rem; line-height: 1.65;
-      color: var(--muted);
-    }
-    .manual-section li::marker { color: var(--accent); }
-
+    /* ── CALLOUTS ── */
     .callout {
-      background: var(--surface);
+      display: flex;
+      gap: 12px;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .callout-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+    .callout-body { color: var(--text-muted); }
+    .callout-body strong { color: var(--text); }
+    .callout.tip { background: var(--blue-bg); border: 1px solid rgba(96,165,250,0.2); }
+    .callout.tip .callout-icon { color: var(--blue); }
+    .callout.warn { background: var(--yellow-bg); border: 1px solid rgba(251,191,36,0.2); }
+    .callout.warn .callout-icon { color: var(--yellow); }
+    .callout.pro { background: var(--accent-glow); border: 1px solid var(--border-accent); }
+    .callout.pro .callout-icon { color: var(--accent-bright); }
+    .callout.danger { background: var(--red-bg); border: 1px solid rgba(248,113,113,0.2); }
+    .callout.danger .callout-icon { color: var(--red); }
+
+    /* ── FEATURE GRID ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .feature-card {
+      background: var(--bg-2);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: border-color 0.15s;
+    }
+    .feature-card:hover { border-color: var(--border-accent); }
+    .feature-card .card-icon { font-size: 22px; margin-bottom: 10px; }
+    .feature-card .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .feature-card .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .feature-card.pro-card { border-color: var(--border-accent); }
+    .feature-card.pro-card .card-icon::after {
+      content: ' ✦';
+      font-size: 10px;
+      color: var(--accent-bright);
+      vertical-align: super;
+    }
+
+    /* ── SETTING ROWS ── */
+    .settings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin: 12px 0;
+    }
+    .setting-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
       border-radius: 8px;
-      padding: 1rem 1.25rem;
-      margin: 1rem 0;
-      font-size: 0.88rem; color: var(--muted); line-height: 1.65;
+      background: var(--bg-2);
+      border: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .setting-row:hover { border-color: var(--border); }
+    .setting-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 180px;
+      flex-shrink: 0;
+      font-family: 'DM Mono', monospace;
+    }
+    .setting-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .pro-tag {
+      flex-shrink: 0;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--accent-bright);
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      align-self: center;
+      margin-left: auto;
+    }
+    .free-tag {
+      flex-shrink: 0;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--green);
+      background: var(--green-bg);
+      border: 1px solid rgba(52,211,153,0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      align-self: center;
+      margin-left: auto;
     }
 
-    .tips {
-      border-left-color: var(--green);
-    }
-
-    .table-wrap {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-    table {
+    /* ── COMPARISON TABLE ── */
+    .compare-table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 640px;
+      margin: 16px 0;
+      font-size: 14px;
     }
-    th {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.82rem;
+    .compare-table th {
       text-align: left;
-      padding: 0.8rem 1rem;
+      padding: 10px 14px;
       border-bottom: 1px solid var(--border);
-      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
-    td {
-      font-size: 0.86rem;
-      color: var(--muted);
-      padding: 0.8rem 1rem;
+    .compare-table th:first-child { color: var(--text-faint); }
+    .compare-table th.free-col { color: var(--green); }
+    .compare-table th.pro-col { color: var(--accent-bright); }
+    .compare-table td {
+      padding: 10px 14px;
       border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
       vertical-align: top;
-      line-height: 1.55;
     }
-    tr:last-child td { border-bottom: none; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table .section-row td {
+      background: var(--bg-2);
+      color: var(--text-faint);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+    }
+    .compare-table .check { color: var(--green); font-size: 16px; }
+    .compare-table .cross { color: var(--text-faint); font-size: 18px; }
+    .compare-table .label { color: var(--text); font-weight: 500; }
 
+    /* ── TROUBLESHOOT ── */
+    .trouble-item {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .trouble-q {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      user-select: none;
+      list-style: none;
+    }
+    .trouble-q::before { content: '▸'; color: var(--accent-bright); font-size: 12px; transition: transform 0.2s; }
+    details[open] .trouble-q::before { transform: rotate(90deg); }
+    .trouble-a {
+      padding: 0 16px 14px 36px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .trouble-a ul { padding-left: 16px; margin-top: 6px; }
+    .trouble-a li { margin-bottom: 4px; }
+
+    /* ── INLINE CODE ── */
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 12.5px;
+      background: var(--bg-3);
+      color: var(--accent-bright);
+      padding: 1px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── FOOTER ── */
     footer {
-      padding: 2.5rem 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
       border-top: 1px solid var(--border);
-      max-width: 1100px; margin: 0 auto;
+      padding: 32px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
     }
-    .footer-left {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.85rem; color: var(--muted);
+    footer .foot-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text-faint);
+      font-size: 13px;
     }
-    .footer-left img { width: 22px; height: 22px; border-radius: 5px; }
-    .footer-links { display: flex; gap: 1.5rem; }
-    footer a {
-      font-size: 0.85rem; color: var(--muted);
-      text-decoration: none; transition: color 0.2s;
+    footer .foot-logo img { width: 20px; height: 20px; border-radius: 5px; opacity: 0.6; }
+    footer .foot-links { display: flex; gap: 16px; }
+    footer .foot-links a {
+      color: var(--text-faint);
+      font-size: 13px;
+      text-decoration: none;
+      transition: color 0.15s;
     }
-    footer a:hover { color: var(--accent); }
+    footer .foot-links a:hover { color: var(--text-muted); }
 
-    @media (max-width: 960px) {
-      .manual-layout {
-        grid-template-columns: 1fr;
-      }
-      .settings-menu {
-        position: static;
-        top: auto;
-        max-height: none;
-      }
+    /* ── MOBILE ── */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 6px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 14px;
     }
 
-    @media (max-width: 640px) {
-      nav { padding: 0 1rem; }
-      .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
-      .content { padding: 1.5rem 1rem 4rem; }
-      .menu-link { font-size: 0.86rem; }
-      .manual-main { padding: 0.95rem; }
+    @media (max-width: 768px) {
+      .layout { padding: 0 16px; gap: 0; }
+      .sidebar { display: none; width: 0; }
+      .sidebar.open {
+        display: block;
+        position: fixed;
+        top: var(--topbar-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        background: var(--bg);
+        z-index: 90;
+        overflow-y: auto;
+        padding: 20px 20px 80px;
+      }
+      .sidebar.open .sidebar-inner { position: static; max-height: none; }
+      .mobile-menu-btn { display: flex; align-items: center; gap: 6px; }
+      .content-header h1 { font-size: 24px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .compare-table { font-size: 13px; }
+      .setting-name { min-width: 130px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <a class="nav-logo" href="index.html">
-      <img src="fravora.png" alt="Fravora logo" />
-      <span>Fravora</span>
-    </a>
-    <div class="nav-links">
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="topnav-logo" href="index.html">
+    <img src="fravora.png" alt="Fravora" />
+    Fravora
+  </a>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="topnav-links">
       <a href="index.html">Home</a>
       <a href="manual.html" class="active">User Manual</a>
       <a href="privacy.html">Privacy Policy</a>
-      <button class="theme-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
     </div>
-  </nav>
-
-  <div class="page-header">
-    <h1>User Manual</h1>
-    <p>Last Updated: May 18, 2026</p>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()" id="menuBtn">☰ Menu</button>
   </div>
+</nav>
 
-  <div class="content">
-    <p class="manual-intro">
-      This manual is based on the current Fravora app implementation and settings labels. It is focused on practical setup and day-to-day use.
-    </p>
+<!-- LAYOUT -->
+<div class="layout">
 
-    <div class="manual-layout">
-      <aside class="settings-menu" aria-label="Manual navigation">
-        <p class="menu-label">Getting Started</p>
-        <div class="menu-group">
-          <a class="menu-link" href="#quick-start">Quick Start</a>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Getting Started</div>
+        <ul class="sidebar-nav">
+          <li><a href="#quick-start" onclick="closeSidebar()"><span class="icon">🚀</span>Quick Start</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Settings</div>
+        <ul class="sidebar-nav">
+          <li><a href="#sources" onclick="closeSidebar()"><span class="icon">🗂️</span>Sources</a></li>
+          <li><a href="#albums" onclick="closeSidebar()"><span class="icon">🖼️</span>Albums</a></li>
+          <li><a href="#slideshow" onclick="closeSidebar()"><span class="icon">▶️</span>Slideshow</a></li>
+          <li><a href="#appearance" onclick="closeSidebar()"><span class="icon">🎨</span>Appearance</a></li>
+          <li><a href="#overlays" onclick="closeSidebar()"><span class="icon">✨</span>Overlays</a></li>
+          <li><a href="#radio" onclick="closeSidebar()"><span class="icon">📻</span>Radio</a></li>
+          <li><a href="#voice" onclick="closeSidebar()"><span class="icon">🎙️</span>Voice Control<span class="pro-badge">PRO</span></a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Reference</div>
+        <ul class="sidebar-nav">
+          <li><a href="#pro" onclick="closeSidebar()"><span class="icon">⭐</span>Free vs PRO</a></li>
+          <li><a href="#troubleshooting" onclick="closeSidebar()"><span class="icon">🔧</span>Troubleshooting</a></li>
+          <li><a href="#support" onclick="closeSidebar()"><span class="icon">💬</span>Support</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="content-header">
+      <div class="badge">📖 Documentation</div>
+      <h1>User Manual</h1>
+      <p>Everything you need to set up, configure, and get the most out of Fravora — from your first photo source to advanced voice control.</p>
+      <div class="meta">Last updated: May 18, 2026 · Based on current app implementation</div>
+    </div>
+
+    <!-- QUICK START -->
+    <section class="section" id="quick-start">
+      <div class="section-header">
+        <div class="section-icon">🚀</div>
+        <div>
+          <div class="section-number">01</div>
+          <h2>Quick Start</h2>
         </div>
+      </div>
 
-        <p class="menu-label">Settings</p>
-        <div class="menu-group">
-          <a class="menu-link" href="#sources">Sources</a>
-          <a class="menu-link" href="#albums">Albums</a>
-          <a class="menu-link" href="#slideshow">Slideshow</a>
-          <a class="menu-link" href="#overlays">Appearance and Overlays</a>
-          <a class="menu-link" href="#radio">Radio</a>
-          <a class="menu-link" href="#voice">Voice</a>
+      <p>From install to running slideshow in five steps:</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Open Fravora and complete <strong>onboarding</strong>. You can replay it anytime from <strong>Settings → Support → Replay Onboarding</strong>.</div>
         </div>
-
-        <p class="menu-label">Reference</p>
-        <div class="menu-group">
-          <a class="menu-link" href="#pro">Free vs PRO</a>
-          <a class="menu-link" href="#troubleshooting">Troubleshooting</a>
-          <a class="menu-link" href="#support">Support</a>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">Go to <strong>Settings → Sources</strong> and add at least one photo source — local folder, SMB/NAS share, or Google Photos.</div>
         </div>
-      </aside>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">Go to <strong>Settings → Albums</strong>, create an album, and attach the source folders or collections you added.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">In <strong>Settings → Slideshow</strong>, set your preferred photo interval, display mode, and optional running hours.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">Return to the frame view. The slideshow starts automatically once images are found.</div>
+        </div>
+      </div>
 
-      <main class="manual-main">
-
-    <section class="manual-section" id="quick-start">
-      <h2>1. Quick Start</h2>
-      <ol>
-        <li>Open Fravora and complete onboarding (or replay it later from Settings &gt; Support).</li>
-        <li>Go to Settings &gt; Sources and add at least one photo source (SMB/NAS, local folder, Google Photos, or OneDrive).</li>
-        <li>Go to Settings &gt; Albums, create an album, and attach source folders/collections.</li>
-        <li>In Settings &gt; Slideshow, set Photo Interval, Display Mode, and optional Running Hours.</li>
-        <li>Save settings and return to the frame view. The slideshow starts once images are available.</li>
-      </ol>
-      <div class="callout tips">Tip: If nothing appears, check the in-app guidance cards first. They explain missing albums, missing sources, or sources with no images.</div>
-    </section>
-
-    <section class="manual-section" id="sources">
-      <h2>2. Settings: Sources</h2>
-      <p>Use Sources to define where photos come from.</p>
-      <h3>2.1 Network Shares (SMB/NAS)</h3>
-      <ul>
-        <li>Add a share using host/share format (no smb:// prefix).</li>
-        <li>Optionally provide username and password.</li>
-        <li>Pick one or more folders from the share. A share with no selected folders is inactive.</li>
-        <li>Use Network Retry Count for unstable networks.</li>
-      </ul>
-
-      <h3>2.2 Local Folders</h3>
-      <ul>
-        <li>Add local folders with the system picker and grant folder access.</li>
-        <li>Albums can reference multiple local folders (PRO) or one folder (Free).</li>
-      </ul>
-
-      <h3>2.3 Cloud Sources</h3>
-      <ul>
-        <li>Supported providers: Google Photos and OneDrive.</li>
-        <li>Connect account, then select cloud folders/collections for album use.</li>
-        <li>Google Photos supports picked sets and import actions from album flows.</li>
-      </ul>
-
-      <h3>2.4 Cache and Storage</h3>
-      <ul>
-        <li>Image Cache Size controls local resized-image cache footprint.</li>
-        <li>Google Photos storage settings reserve free-space headroom to protect device storage.</li>
-        <li>You can clear standard image cache and Google Photos cache from settings actions.</li>
-      </ul>
-    </section>
-
-    <section class="manual-section" id="albums">
-      <h2>3. Settings: Albums</h2>
-      <p>Albums are the playback containers Fravora scans for slideshow images.</p>
-      <ul>
-        <li>Create one or more albums and enable at least one album for playback.</li>
-        <li>Inside each album, attach SMB folders, local folders, and cloud collections.</li>
-        <li>Use Include subfolders when your images are nested (PRO for SMB recursion rules).</li>
-        <li>Use Hidden photos to exclude specific photos and unhide them later.</li>
-        <li>Album counters show visible/hidden/total image counts to verify configuration.</li>
-      </ul>
-      <div class="callout">If selected albums contain only hidden images, Fravora will not display photos until some are unhidden.</div>
-    </section>
-
-    <section class="manual-section" id="slideshow">
-      <h2>4. Settings: Slideshow</h2>
-      <h3>4.1 Playback controls</h3>
-      <ul>
-        <li>Photo Interval range: 10 to 600 seconds.</li>
-        <li>Image Order options include Date Added, Taken, Album Order, File Name, Random, and Smart Shuffle (PRO).</li>
-        <li>Display Mode: Fit (no crop) or Fill (screen-filling with possible crop).</li>
-        <li>Transition Effect: Free uses None at runtime; PRO unlocks full effects.</li>
-      </ul>
-
-      <h3>4.2 Running Hours and standby</h3>
-      <ul>
-        <li>Enable Running Hours for daily start/end windows.</li>
-        <li>Optional custom schedules per day can be configured.</li>
-        <li>Outside running hours, Screen saver shows standby clock or a black screen.</li>
-        <li>Bouncing standby clock is PRO.</li>
-      </ul>
-
-      <h3>4.3 Reliability behavior</h3>
-      <ul>
-        <li>Fravora retries network image loads based on Network Retry Count.</li>
-        <li>On repeated SMB failures, Fravora can pause and show a connection problem flow with retry/open-sources actions.</li>
-        <li>If some shares are down, slideshow continues with reachable sources when possible.</li>
-      </ul>
-    </section>
-
-    <section class="manual-section" id="overlays">
-      <h2>5. Settings: Appearance and Overlays</h2>
-      <h3>5.1 Appearance</h3>
-      <ul>
-        <li>App Theme: System, Light, or Dark.</li>
-        <li>App Language can follow system or be forced to a chosen language.</li>
-        <li>Fullscreen Mode and Keep Screen Awake improve frame-like behavior.</li>
-        <li>App Color Scheme and advanced sizing controls are PRO-gated.</li>
-      </ul>
-
-      <h3>5.2 Overlays</h3>
-      <ul>
-        <li>Clock overlay is available on Free and PRO.</li>
-        <li>Weather, Photo Info (metadata), Artist and Song Info, Photo Counter, and Radio Indicator are available with tier gating.</li>
-        <li>Overlay Layout lets you place overlays in corners or hide supported overlays.</li>
-        <li>Avoid Burn-in Effect periodically shifts overlays and adjusts opacity (PRO).</li>
-      </ul>
-    </section>
-
-    <section class="manual-section" id="radio">
-      <h2>6. Settings: Radio</h2>
-      <ul>
-        <li>Search for stations and set Current Station.</li>
-        <li>Free tier has search constraints and session-only station persistence.</li>
-        <li>PRO unlocks Favorites, Recently played, and persistent station behavior across restarts.</li>
-        <li>Radio Running Hours and custom daily scheduling are supported (PRO for advanced patterns).</li>
-        <li>Keep Radio Playing in Background and lockscreen/notification controls are PRO.</li>
-      </ul>
-      <div class="callout">If radio fails to start, Fravora shows typed failure reasons such as timeout, network issue, access denied, unavailable stream, or unsupported format.</div>
-    </section>
-
-    <section class="manual-section" id="voice">
-      <h2>7. Settings: Voice</h2>
-      <p>Voice controls are PRO features and require microphone permission plus an Android speech recognition service.</p>
-      <h3>7.1 Wake phrases</h3>
-      <ul>
-        <li>Hello Frame</li>
-        <li>Hello Fravora</li>
-      </ul>
-
-      <h3>7.2 Common command intents</h3>
-      <ul>
-        <li>Play/start/resume radio</li>
-        <li>Stop/pause radio</li>
-        <li>Play/pause/stop slideshow</li>
-        <li>Disable voice control</li>
-      </ul>
-
-      <h3>7.3 Behavior notes</h3>
-      <ul>
-        <li>Commands are English token-based phrases.</li>
-        <li>If no station is configured and a radio start command is detected, Fravora opens Settings &gt; Radio.</li>
-        <li>You can enable follow-up command windows and wake feedback sound.</li>
-      </ul>
-    </section>
-
-    <section class="manual-section" id="pro">
-      <h2>8. Free vs PRO</h2>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Area</th>
-              <th>Free</th>
-              <th>PRO (or Temporary PRO)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Sources and albums</td>
-              <td>1 source/folder/album style limits</td>
-              <td>Expanded limits across sources, albums, and mappings</td>
-            </tr>
-            <tr>
-              <td>Transitions and ordering</td>
-              <td>Transition forced to None; no Smart Shuffle</td>
-              <td>Full transition set plus Smart Shuffle</td>
-            </tr>
-            <tr>
-              <td>Overlays</td>
-              <td>Core clock flow</td>
-              <td>Weather, metadata, advanced overlay controls, anti burn-in, and more</td>
-            </tr>
-            <tr>
-              <td>Radio</td>
-              <td>Basic playback and search limits</td>
-              <td>Favorites, recents, persistence, background playback, lockscreen controls</td>
-            </tr>
-            <tr>
-              <td>Voice control</td>
-              <td>Not available</td>
-              <td>Wake phrase and command controls</td>
-            </tr>
-            <tr>
-              <td>How to unlock</td>
-              <td>Watch ad for temporary PRO, up to 4 ads/day, +15 min each</td>
-              <td>One-time permanent purchase through Google Play</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">If nothing appears, check the in-app guidance cards — they explain missing albums, empty sources, or sources that haven't been scanned yet.</div>
       </div>
     </section>
 
-    <section class="manual-section" id="troubleshooting">
-      <h2>9. Troubleshooting</h2>
-      <h3>No photos showing</h3>
-      <ul>
-        <li>Confirm at least one album exists and is selected.</li>
-        <li>Confirm the selected album has active sources attached.</li>
-        <li>If photos are nested, enable Include subfolders where needed.</li>
-      </ul>
+    <!-- SOURCES -->
+    <section class="section" id="sources">
+      <div class="section-header">
+        <div class="section-icon">🗂️</div>
+        <div>
+          <div class="section-number">02</div>
+          <h2>Sources</h2>
+        </div>
+      </div>
 
-      <h3>Only hidden photos found</h3>
-      <ul>
-        <li>Go to Settings &gt; Albums &gt; Hidden photos and unhide needed images.</li>
-      </ul>
+      <p>Sources define where your photos come from. Fravora supports local folders, network shares, and cloud services. Add sources first — albums reference them.</p>
 
-      <h3>Network share issues</h3>
-      <ul>
-        <li>Verify host/share path and credentials.</li>
-        <li>Increase Network Retry Count for unstable links.</li>
-        <li>Use Open Sources from connection warning dialogs for quick correction.</li>
-      </ul>
+      <h3>Network Shares (SMB / NAS)</h3>
+      <p>Connect to any SMB-compatible NAS or shared folder on your local network.</p>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Host / Share</span><span class="setting-desc">Enter in <code>hostname/sharename</code> format — no <code>smb://</code> prefix needed.</span></div>
+        <div class="setting-row"><span class="setting-name">Credentials</span><span class="setting-desc">Username and password are optional — leave blank for guest access.</span></div>
+        <div class="setting-row"><span class="setting-name">Folders</span><span class="setting-desc">After connecting, select one or more folders from the share. A share with no selected folders is inactive.</span></div>
+        <div class="setting-row"><span class="setting-name">Network Retry Count</span><span class="setting-desc">How many times Fravora retries a failed image load before marking it unavailable. Increase for unstable networks.</span></div>
+      </div>
 
-      <h3>Google Photos import/storage blocked</h3>
-      <ul>
-        <li>Free storage space on the device.</li>
-        <li>Lower Google Photos minimum free-space headroom in Sources.</li>
-        <li>Clear Google Photos cache if old picks are no longer needed.</li>
-      </ul>
+      <h3>Local Folders</h3>
+      <p>Add folders stored directly on the device using the system file picker. You'll be prompted to grant folder access permission.</p>
+      <div class="callout pro">
+        <span class="callout-icon">✦</span>
+        <div class="callout-body"><strong>PRO:</strong> Albums can reference multiple local folders. Free tier is limited to one local folder per album.</div>
+      </div>
 
-      <h3>Voice cannot be enabled</h3>
-      <ul>
-        <li>Install/enable a speech recognition service (commonly Speech Services by Google).</li>
-        <li>Set it as the device voice input service in Android settings.</li>
-      </ul>
+      <h3>Cloud Sources</h3>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="card-icon">☁️</div>
+          <div class="card-title">Google Photos</div>
+          <div class="card-desc">Connect your Google account and select albums or photo picks. Free tier supports 1 album; PRO expands the quota and syncs more frequently.</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">📁</div>
+          <div class="card-title">OneDrive</div>
+          <div class="card-desc">Connect your Microsoft account and select cloud folders to include in your slideshow.</div>
+        </div>
+      </div>
+
+      <h3>Cache & Storage</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Image Cache Size</span><span class="setting-desc">Controls how much local storage is used for resized image cache. Larger values reduce re-loads; smaller values save space.</span></div>
+        <div class="setting-row"><span class="setting-name">Google Photos headroom</span><span class="setting-desc">Reserves free-space on your device before downloading Google Photos images, protecting against storage exhaustion.</span></div>
+        <div class="setting-row"><span class="setting-name">Clear Cache</span><span class="setting-desc">Available for both standard image cache and Google Photos cache. Useful if old picks are no longer needed or the cache grows too large.</span></div>
+      </div>
     </section>
 
-    <section class="manual-section" id="support">
-      <h2>10. Support</h2>
-      <ul>
-        <li>Use Settings &gt; Support &gt; Report an Issue to send details by email.</li>
-        <li>Use Feature request for enhancement ideas.</li>
-        <li>Use Check for updates to verify whether a newer app version is available.</li>
-      </ul>
-      <p>For privacy details, see the Privacy Policy page on this site.</p>
+    <!-- ALBUMS -->
+    <section class="section" id="albums">
+      <div class="section-header">
+        <div class="section-icon">🖼️</div>
+        <div>
+          <div class="section-number">03</div>
+          <h2>Albums</h2>
+        </div>
+      </div>
+
+      <p>Albums are the playback containers Fravora scans for slideshow images. You can have multiple albums and enable or disable each independently.</p>
+
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Create album</span><span class="setting-desc">Give the album a name, then attach SMB folders, local folders, and/or cloud collections to it.</span></div>
+        <div class="setting-row"><span class="setting-name">Enable for playback</span><span class="setting-desc">Only enabled albums are included in the slideshow. Toggle albums on/off without deleting them.</span></div>
+        <div class="setting-row"><span class="setting-name">Include subfolders</span><span class="setting-desc">Recursively scan nested folders within the attached source. <span style="color:var(--accent-bright)">PRO required for SMB recursive scanning.</span></span></div>
+        <div class="setting-row"><span class="setting-name">Image counters</span><span class="setting-desc">Each album shows visible / hidden / total image counts so you can verify the configuration.</span></div>
+        <div class="setting-row"><span class="setting-name">Hidden photos</span><span class="setting-desc">Hide individual photos per-album or globally without deleting them. Unhide anytime from <strong>Settings → Albums → Hidden photos</strong>.</span></div>
+      </div>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">If all photos in your enabled albums are hidden, Fravora will show nothing. Go to <strong>Hidden photos</strong> to unhide some images.</div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">When importing from Google Photos, Fravora warns you if any selected picks are already hidden and excludes them automatically.</div>
+      </div>
     </section>
 
-      </main>
-    </div>
+    <!-- SLIDESHOW -->
+    <section class="section" id="slideshow">
+      <div class="section-header">
+        <div class="section-icon">▶️</div>
+        <div>
+          <div class="section-number">04</div>
+          <h2>Slideshow</h2>
+        </div>
+      </div>
 
+      <h3>Playback Settings</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Photo Interval</span><span class="setting-desc">How long each photo is displayed. Range: 10–600 seconds.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Image Order</span><span class="setting-desc">Date Added, Taken Date, Album Order, File Name, Random, or Smart Shuffle (PRO).</span></div>
+        <div class="setting-row"><span class="setting-name">Smart Shuffle</span><span class="setting-desc">Shuffle-based order that reduces back-to-back similar shots for a more varied display.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Display Mode</span><span class="setting-desc"><strong>Fit</strong> — shows the full image with no cropping. <strong>Fill</strong> — fills the screen, may crop edges.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Transition Effect</span><span class="setting-desc">Free tier runs without transitions. PRO unlocks: Slide, Cube, Zoom, Crossfade, Depth, Parallax, Accordion, Vertical Slide, Card Deck, and Random.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Scan Interval</span><span class="setting-desc">How often Fravora rescans sources for new or removed photos.</span><span class="pro-tag">PRO</span></div>
+      </div>
+
+      <h3>Running Hours & Standby</h3>
+      <p>Set a daily window when the frame is active. Outside those hours, Fravora switches to standby mode.</p>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Running Hours</span><span class="setting-desc">Enable a daily start/end window. The slideshow only runs during this window.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Custom Daily Schedule</span><span class="setting-desc">Set different start/end times per day of the week.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Screen Saver</span><span class="setting-desc">Outside running hours, shows a large standby clock or a fully black screen.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Bouncing Clock</span><span class="setting-desc">Standby clock bounces around the screen to prevent burn-in on OLED/AMOLED displays.</span><span class="pro-tag">PRO</span></div>
+      </div>
+
+      <h3>Reliability</h3>
+      <div class="callout tip">
+        <span class="callout-icon">📡</span>
+        <div class="callout-body">If an SMB share goes offline, Fravora continues the slideshow with reachable sources. After repeated failures a connection warning overlay appears — tap <strong>Retry</strong> or <strong>Open Sources</strong> to fix the issue.</div>
+      </div>
+    </section>
+
+    <!-- APPEARANCE -->
+    <section class="section" id="appearance">
+      <div class="section-header">
+        <div class="section-icon">🎨</div>
+        <div>
+          <div class="section-number">05</div>
+          <h2>Appearance</h2>
+        </div>
+      </div>
+
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">App Theme</span><span class="setting-desc">System (follows Android setting), Light, or Dark.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">App Color Scheme</span><span class="setting-desc">Choose accent colors used throughout the app UI.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">App Language</span><span class="setting-desc">Follow system language or force a specific language. Applied immediately at runtime.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">App Font Size</span><span class="setting-desc">Adjust text size across the app interface.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Fullscreen Mode</span><span class="setting-desc">Hides the status bar and navigation bar for a true frame look.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Keep Screen Awake</span><span class="setting-desc">Prevents the device from sleeping while the app is in the foreground.</span><span class="free-tag">FREE</span></div>
+      </div>
+    </section>
+
+    <!-- OVERLAYS -->
+    <section class="section" id="overlays">
+      <div class="section-header">
+        <div class="section-icon">✨</div>
+        <div>
+          <div class="section-number">06</div>
+          <h2>Overlays</h2>
+        </div>
+      </div>
+
+      <p>Overlays are elements displayed on top of your photos during the slideshow. Each can be positioned, sized, and toggled independently.</p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="card-icon">🕐</div>
+          <div class="card-title">Clock</div>
+          <div class="card-desc">Shows the current time. Configurable size and time/date format. Always available on Free.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">🌤️</div>
+          <div class="card-title">Weather</div>
+          <div class="card-desc">Live local weather conditions overlaid on the frame. Requires location permission.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">📍</div>
+          <div class="card-title">Photo Info</div>
+          <div class="card-desc">Shows the location and date each photo was taken, read from EXIF data. Processed locally.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">🎵</div>
+          <div class="card-title">Artist & Song Info</div>
+          <div class="card-desc">Displays the artist and track name while radio is playing.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">📻</div>
+          <div class="card-title">Radio Indicator</div>
+          <div class="card-desc">A small indicator showing the currently playing station.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">🔢</div>
+          <div class="card-title">Photo Counter</div>
+          <div class="card-desc">Shows your position in the album (e.g. 12 / 340). Placeable at top or bottom.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">🌀</div>
+          <div class="card-title">Ambient Logo</div>
+          <div class="card-desc">A subtle Fravora logo watermark over the frame.</div>
+        </div>
+        <div class="feature-card pro-card">
+          <div class="card-icon">🛡️</div>
+          <div class="card-title">Anti Burn-In</div>
+          <div class="card-desc">Periodically micro-shifts overlays and varies opacity to protect OLED displays.</div>
+        </div>
+      </div>
+
+      <div class="callout pro" style="margin-top:20px">
+        <span class="callout-icon">✦</span>
+        <div class="callout-body"><strong>Overlay Layout (PRO):</strong> Drag overlays into any of 6 screen positions (top-left, top-center, top-right, bottom-left, bottom-center, bottom-right) or hide them entirely.</div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">On Free, the clock is fixed to the bottom-right. The position controls are visible but locked until PRO is active.</div>
+      </div>
+    </section>
+
+    <!-- RADIO -->
+    <section class="section" id="radio">
+      <div class="section-header">
+        <div class="section-icon">📻</div>
+        <div>
+          <div class="section-number">07</div>
+          <h2>Radio</h2>
+        </div>
+      </div>
+
+      <p>Fravora has built-in internet radio streaming that plays alongside your slideshow. Search for any station by name, genre, or country.</p>
+
+      <h3>Basic Playback (Free)</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Search</span><span class="setting-desc">Search for stations by name, genre, language, or country. Free tier has a daily search limit.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Play / Pause / Stop</span><span class="setting-desc">Manual controls available at all times during the session.</span><span class="free-tag">FREE</span></div>
+        <div class="setting-row"><span class="setting-name">Session persistence</span><span class="setting-desc">Current station is remembered during the session but cleared when the app restarts.</span><span class="free-tag">FREE</span></div>
+      </div>
+
+      <h3>PRO Radio Features</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Station persistence</span><span class="setting-desc">Your last station is remembered across app restarts — no need to search again.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Favorites</span><span class="setting-desc">Save stations to a favorites list for quick access.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Unlimited search</span><span class="setting-desc">No daily search limit.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Auto-play on select</span><span class="setting-desc">Tapping a station in search results starts playback immediately.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Background playback</span><span class="setting-desc">Radio keeps playing when the screen turns off or another app is in the foreground.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Lockscreen controls</span><span class="setting-desc">Play/pause and previous/next station from the Android notification shade and lockscreen.</span><span class="pro-tag">PRO</span></div>
+        <div class="setting-row"><span class="setting-name">Radio Running Hours</span><span class="setting-desc">Set when radio auto-starts and stops, with optional per-day custom schedules.</span><span class="pro-tag">PRO</span></div>
+      </div>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">If a station fails to load, Fravora shows the specific reason: <strong>timeout</strong>, <strong>network issue</strong>, <strong>access denied</strong>, <strong>unavailable stream</strong>, or <strong>unsupported format</strong>. Try a different station or check your connection.</div>
+      </div>
+    </section>
+
+    <!-- VOICE -->
+    <section class="section" id="voice">
+      <div class="section-header">
+        <div class="section-icon">🎙️</div>
+        <div>
+          <div class="section-number">08</div>
+          <h2>Voice Control</h2>
+        </div>
+      </div>
+
+      <div class="callout pro">
+        <span class="callout-icon">✦</span>
+        <div class="callout-body"><strong>PRO feature.</strong> Voice control requires microphone permission and an Android speech recognition service (typically <em>Speech Services by Google</em>).</div>
+      </div>
+
+      <h3>Setup</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Make sure <strong>Speech Services by Google</strong> (or another speech recognition service) is installed and set as the device voice input in Android Settings → General Management → Language and Input.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">In Fravora, go to <strong>Settings → Voice</strong> and grant microphone permission when prompted.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">Enable the <strong>Voice Control</strong> master toggle, then enable individual feature toggles (radio, slideshow, assistant) as needed.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">Choose your <strong>wake phrase</strong> and optional wake feedback sound. Say the wake phrase — you'll see a blue listening frame.</div>
+        </div>
+      </div>
+
+      <h3>Wake Phrases</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Hello Frame</span><span class="setting-desc">Default wake phrase. Processed entirely on-device using OpenWakeWord.</span></div>
+        <div class="setting-row"><span class="setting-name">Hello Fravora</span><span class="setting-desc">Alternative wake phrase. Same on-device processing.</span></div>
+      </div>
+
+      <h3>Commands</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Play / start / resume radio</span><span class="setting-desc">Starts or resumes the radio stream.</span></div>
+        <div class="setting-row"><span class="setting-name">Stop / pause radio</span><span class="setting-desc">Pauses or stops the current radio stream.</span></div>
+        <div class="setting-row"><span class="setting-name">Play / pause / stop slideshow</span><span class="setting-desc">Controls slideshow playback without touching the screen.</span></div>
+        <div class="setting-row"><span class="setting-name">Disable voice control</span><span class="setting-desc">Turns off voice listening until re-enabled in Settings.</span></div>
+      </div>
+
+      <h3>Visual Feedback</h3>
+      <div class="settings-list">
+        <div class="setting-row"><span class="setting-name">Blue frame</span><span class="setting-desc">Fravora is listening for a command.</span></div>
+        <div class="setting-row"><span class="setting-name">Green frame + sound</span><span class="setting-desc">Command was recognized and acted on.</span></div>
+        <div class="setting-row"><span class="setting-name">Red frame + sound</span><span class="setting-desc">Speech recognition is unavailable or failed.</span></div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">If no station is configured and you say "play radio", Fravora opens <strong>Settings → Radio</strong> automatically so you can pick one.</div>
+      </div>
+    </section>
+
+    <!-- FREE VS PRO -->
+    <section class="section" id="pro">
+      <div class="section-header">
+        <div class="section-icon">⭐</div>
+        <div>
+          <div class="section-number">09</div>
+          <h2>Free vs PRO</h2>
+        </div>
+      </div>
+
+      <p>Free tier is genuinely usable. PRO removes limits, unlocks advanced features, and is a one-time purchase — no subscriptions.</p>
+
+      <div class="callout tip">
+        <span class="callout-icon">🎁</span>
+        <div class="callout-body"><strong>Try PRO for free:</strong> Watch an optional rewarded ad for +15 minutes of temporary PRO access. Up to 4 ads per day, stackable. No purchase required.</div>
+      </div>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="free-col">Free</th>
+            <th class="pro-col">PRO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="section-row"><td colspan="3">Sources & Albums</td></tr>
+          <tr><td class="label">Local folders per album</td><td>1</td><td>Multiple</td></tr>
+          <tr><td class="label">SMB folders per album</td><td>1</td><td>Multiple</td></tr>
+          <tr><td class="label">Cloud connections</td><td>1 album</td><td>Expanded</td></tr>
+          <tr><td class="label">Include subfolders (recursive)</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Scan interval control</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+
+          <tr class="section-row"><td colspan="3">Slideshow</td></tr>
+          <tr><td class="label">Uninterrupted slideshow</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Smart Shuffle order</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Transition effects</td><td>None only</td><td>10 effects</td></tr>
+          <tr><td class="label">Running hours scheduling</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Bouncing standby clock</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+
+          <tr class="section-row"><td colspan="3">Radio</td></tr>
+          <tr><td class="label">Search & play stations</td><td><span class="check">✓</span> (limited)</td><td><span class="check">✓</span> unlimited</td></tr>
+          <tr><td class="label">Station persistence</td><td>Session only</td><td>Across restarts</td></tr>
+          <tr><td class="label">Favorites</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Background playback</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Lockscreen media controls</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Radio running hours</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+
+          <tr class="section-row"><td colspan="3">Overlays</td></tr>
+          <tr><td class="label">Clock overlay</td><td><span class="check">✓</span> (fixed position)</td><td><span class="check">✓</span> (any position)</td></tr>
+          <tr><td class="label">Weather overlay</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Photo Info (date & location)</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Artist & Song Info</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Photo Counter</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Overlay positioning</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">Anti burn-in effect</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td class="label">App color scheme</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+
+          <tr class="section-row"><td colspan="3">Controls</td></tr>
+          <tr><td class="label">Voice control</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+
+          <tr class="section-row"><td colspan="3">Unlock PRO</td></tr>
+          <tr><td class="label">Rewarded ad (+15 min)</td><td><span class="check">✓</span> up to 4/day</td><td>—</td></tr>
+          <tr><td class="label">One-time purchase</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">🔄</span>
+        <div class="callout-body">When PRO expires, all PRO settings revert to Free defaults — but a snapshot is saved. When you reactivate PRO, your previous settings are automatically restored.</div>
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section class="section" id="troubleshooting">
+      <div class="section-header">
+        <div class="section-icon">🔧</div>
+        <div>
+          <div class="section-number">10</div>
+          <h2>Troubleshooting</h2>
+        </div>
+      </div>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">No photos are showing</summary>
+        <div class="trouble-a">
+          <ul>
+            <li>Confirm at least one album exists and is enabled for playback.</li>
+            <li>Check that the album has at least one source folder attached.</li>
+            <li>If photos are in nested folders, enable <strong>Include subfolders</strong> (PRO for SMB).</li>
+            <li>Wait for the initial scan to complete — large folders take a moment.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">All photos are hidden / slideshow is blank</summary>
+        <div class="trouble-a">
+          Go to <strong>Settings → Albums → Hidden photos</strong> and unhide the images you want to show. Album counters display visible/hidden/total counts to help identify the issue.
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">SMB / NAS share won't connect</summary>
+        <div class="trouble-a">
+          <ul>
+            <li>Verify the host/share path — use <code>hostname/sharename</code> format with no <code>smb://</code> prefix.</li>
+            <li>Check your credentials. Try guest access (blank username/password) if the share allows it.</li>
+            <li>Increase <strong>Network Retry Count</strong> in Sources for unstable network links.</li>
+            <li>Ensure the device is on the same local network as the NAS.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">Google Photos won't sync or import is blocked</summary>
+        <div class="trouble-a">
+          <ul>
+            <li>Free up storage space on the device.</li>
+            <li>Lower the <strong>minimum free-space headroom</strong> setting in Sources → Google Photos.</li>
+            <li>Clear the Google Photos cache from Sources settings if old picks are stale.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">Radio station won't play</summary>
+        <div class="trouble-a">
+          Fravora shows the specific failure reason: <strong>timeout</strong>, <strong>network issue</strong>, <strong>access denied</strong>, <strong>unavailable stream</strong>, or <strong>unsupported format</strong>. Try a different station if the stream is down, or check your internet connection for network issues.
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">Voice control won't enable</summary>
+        <div class="trouble-a">
+          <ul>
+            <li>Install <strong>Speech Services by Google</strong> from the Play Store if it's not already present.</li>
+            <li>Set it as the default voice input: <strong>Android Settings → General Management → Language and Input → Voice Input</strong>.</li>
+            <li>Grant microphone permission to Fravora when prompted.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">Screen keeps turning off during slideshow</summary>
+        <div class="trouble-a">
+          Enable <strong>Keep Screen Awake</strong> in <strong>Settings → Appearance</strong>. Also check your device's display timeout setting — some Android versions override app-level wake locks at aggressive timeout values.
+        </div>
+      </details>
+
+      <details class="trouble-item">
+        <summary class="trouble-q">PRO features disappeared after an ad session expired</summary>
+        <div class="trouble-a">
+          Temporary PRO access from rewarded ads expires after the granted time (+15 min per ad, up to 4/day). Your PRO settings are saved and will be automatically restored the next time you activate PRO — either via another ad or a permanent purchase.
+        </div>
+      </details>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="section" id="support">
+      <div class="section-header">
+        <div class="section-icon">💬</div>
+        <div>
+          <div class="section-number">11</div>
+          <h2>Support</h2>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="card-icon">📧</div>
+          <div class="card-title">Report an Issue</div>
+          <div class="card-desc">Go to <strong>Settings → Support → Report an Issue</strong> to send a detailed bug report by email, including device and app version info.</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">💡</div>
+          <div class="card-title">Feature Requests</div>
+          <div class="card-desc">Use <strong>Settings → Support → Feature Request</strong> to suggest improvements or new features.</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">🔄</div>
+          <div class="card-title">Check for Updates</div>
+          <div class="card-desc">Use <strong>Settings → Support → Check for Updates</strong> to verify you have the latest version from the Play Store.</div>
+        </div>
+        <div class="feature-card">
+          <div class="card-icon">📖</div>
+          <div class="card-title">Replay Onboarding</div>
+          <div class="card-desc">Re-run the first-launch onboarding flow anytime from <strong>Settings → Support → Replay Onboarding</strong>.</div>
+        </div>
+      </div>
+
+      <div class="callout tip" style="margin-top:20px">
+        <span class="callout-icon">📬</span>
+        <div class="callout-body">You can also reach the developer directly at <a href="mailto:aniujual.dev@yahoo.com" style="color:var(--accent-bright)">aniujual.dev@yahoo.com</a>. For privacy details, see the <a href="privacy.html" style="color:var(--accent-bright)">Privacy Policy</a>.</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <a class="foot-logo" href="index.html">
+    <img src="fravora.png" alt="Fravora" />
+    © 2026 Fravora
+  </a>
+  <div class="foot-links">
+    <a href="mailto:aniujual.dev@yahoo.com">Contact</a>
+    <a href="manual.html">User Manual</a>
+    <a href="privacy.html">Privacy Policy</a>
   </div>
+</footer>
 
-  <footer>
-    <div class="footer-left">
-      <img src="fravora.png" alt="" />
-      <span>© 2026 Fravora</span>
-    </div>
-    <div class="footer-links">
-      <a href="mailto:aniujual.dev@yahoo.com">Contact</a>
-      <a href="manual.html">User Manual</a>
-      <a href="privacy.html">Privacy Policy</a>
-    </div>
-  </footer>
+<script>
+  // Sidebar toggle for mobile
+  function toggleSidebar() {
+    const s = document.getElementById('sidebar');
+    const b = document.getElementById('menuBtn');
+    s.classList.toggle('open');
+    b.textContent = s.classList.contains('open') ? '✕ Close' : '☰ Menu';
+  }
+  function closeSidebar() {
+    const s = document.getElementById('sidebar');
+    const b = document.getElementById('menuBtn');
+    s.classList.remove('open');
+    b.textContent = '☰ Menu';
+  }
 
-  <script>
-    const btn = document.getElementById('themeBtn');
-    const html = document.documentElement;
-    const saved = localStorage.getItem('theme') || 'dark';
-    html.setAttribute('data-theme', saved);
-    btn.textContent = saved === 'dark' ? '☀️' : '🌙';
-    btn.addEventListener('click', () => {
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      btn.textContent = next === 'dark' ? '☀️' : '🌙';
+  // Active sidebar link on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+  function onScroll() {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.getBoundingClientRect().top;
+      if (top <= 100) current = s.id;
     });
-
-    const links = Array.from(document.querySelectorAll('.menu-link'));
-    const sections = links
-      .map(link => document.querySelector(link.getAttribute('href')))
-      .filter(Boolean);
-    const HEADER_OFFSET = 84;
-
-    const setActiveLink = (id) => {
-      links.forEach(link => {
-        const isActive = link.getAttribute('href') === `#${id}`;
-        link.classList.toggle('active', isActive);
-      });
-    };
-
-    const updateActiveFromScroll = () => {
-      if (sections.length === 0) return;
-      const scanY = window.scrollY + HEADER_OFFSET + 12;
-      let current = sections[0];
-
-      for (const section of sections) {
-        if (section.offsetTop <= scanY) {
-          current = section;
-        } else {
-          break;
-        }
-      }
-
-      setActiveLink(current.id);
-    };
-
-    links.forEach(link => {
-      link.addEventListener('click', (event) => {
-        const targetSelector = link.getAttribute('href');
-        const target = targetSelector ? document.querySelector(targetSelector) : null;
-        if (!target) return;
-
-        event.preventDefault();
-        const targetTop = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-        window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
-        setActiveLink(target.id);
-
-        if (history.replaceState) {
-          history.replaceState(null, '', `#${target.id}`);
-        }
-      });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
     });
+  }
 
-    window.addEventListener('scroll', updateActiveFromScroll, { passive: true });
-    window.addEventListener('resize', updateActiveFromScroll);
-    updateActiveFromScroll();
-
-    if (window.location.hash) {
-      const initialTarget = document.querySelector(window.location.hash);
-      if (initialTarget) {
-        const initialTop = initialTarget.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-        window.scrollTo({ top: Math.max(0, initialTop), behavior: 'auto' });
-        setActiveLink(initialTarget.id);
-      }
-    }
-  </script>
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
 </body>
 </html>
