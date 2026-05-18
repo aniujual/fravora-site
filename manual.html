@@ -100,34 +100,84 @@
     .page-header p { color: var(--muted); font-size: 0.92rem; }
 
     .content {
-      max-width: 880px; margin: 0 auto;
-      padding: 3rem 2rem 5rem;
+      max-width: 1180px; margin: 0 auto;
+      padding: 2.2rem 2rem 5rem;
     }
 
-    .toc {
+    .manual-intro {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 2.5rem;
+      padding: 1rem 1.1rem;
     }
-    .toc h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.75rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      color: var(--accent); margin-bottom: 1rem;
-    }
-    .toc ol {
-      padding-left: 1.25rem;
+
+    .manual-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 0.4rem 1rem;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 1.2rem;
+      align-items: start;
     }
-    .toc li a {
-      color: var(--muted); text-decoration: none;
-      font-size: 0.88rem; transition: color 0.2s;
+
+    .settings-menu {
+      position: sticky;
+      top: 84px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+      max-height: calc(100vh - 96px);
+      overflow: auto;
     }
-    .toc li a:hover { color: var(--accent); }
+
+    .menu-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--accent);
+      margin-bottom: 0.65rem;
+    }
+
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+      margin-bottom: 1rem;
+    }
+
+    .menu-link {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .menu-link:hover {
+      color: var(--text);
+      background: rgba(155, 93, 229, 0.09);
+    }
+
+    .menu-link.active {
+      color: var(--text);
+      background: rgba(155, 93, 229, 0.16);
+      border-color: rgba(155, 93, 229, 0.35);
+    }
+
+    .manual-main {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.15rem;
+    }
 
     .manual-section { margin-bottom: 2.6rem; }
     .manual-section h2 {
@@ -136,7 +186,11 @@
       margin-bottom: 0.9rem;
       border-top: 1px solid var(--border);
       padding-top: 1.5rem;
-      scroll-margin-top: 80px;
+      scroll-margin-top: 84px;
+    }
+    .manual-main .manual-section:first-child h2 {
+      border-top: none;
+      padding-top: 0;
     }
     .manual-section h3 {
       font-family: 'Syne', sans-serif;
@@ -222,11 +276,23 @@
     }
     footer a:hover { color: var(--accent); }
 
+    @media (max-width: 960px) {
+      .manual-layout {
+        grid-template-columns: 1fr;
+      }
+      .settings-menu {
+        position: static;
+        top: auto;
+        max-height: none;
+      }
+    }
+
     @media (max-width: 640px) {
       nav { padding: 0 1rem; }
       .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
-      .content { padding: 2rem 1rem 4rem; }
-      .toc ol { grid-template-columns: 1fr; }
+      .content { padding: 1.5rem 1rem 4rem; }
+      .menu-link { font-size: 0.86rem; }
+      .manual-main { padding: 0.95rem; }
     }
   </style>
 </head>
@@ -251,26 +317,36 @@
   </div>
 
   <div class="content">
-
-    <div class="toc">
-      <h2>Contents</h2>
-      <ol>
-        <li><a href="#quick-start">Quick Start</a></li>
-        <li><a href="#sources">Settings: Sources</a></li>
-        <li><a href="#albums">Settings: Albums</a></li>
-        <li><a href="#slideshow">Settings: Slideshow</a></li>
-        <li><a href="#overlays">Settings: Appearance and Overlays</a></li>
-        <li><a href="#radio">Settings: Radio</a></li>
-        <li><a href="#voice">Settings: Voice</a></li>
-        <li><a href="#pro">Free vs PRO</a></li>
-        <li><a href="#troubleshooting">Troubleshooting</a></li>
-        <li><a href="#support">Support</a></li>
-      </ol>
-    </div>
-
-    <p style="font-size:0.92rem;color:var(--muted);line-height:1.75;margin-bottom:2.2rem;">
+    <p class="manual-intro">
       This manual is based on the current Fravora app implementation and settings labels. It is focused on practical setup and day-to-day use.
     </p>
+
+    <div class="manual-layout">
+      <aside class="settings-menu" aria-label="Manual navigation">
+        <p class="menu-label">Getting Started</p>
+        <div class="menu-group">
+          <a class="menu-link" href="#quick-start">Quick Start</a>
+        </div>
+
+        <p class="menu-label">Settings</p>
+        <div class="menu-group">
+          <a class="menu-link" href="#sources">Sources</a>
+          <a class="menu-link" href="#albums">Albums</a>
+          <a class="menu-link" href="#slideshow">Slideshow</a>
+          <a class="menu-link" href="#overlays">Appearance and Overlays</a>
+          <a class="menu-link" href="#radio">Radio</a>
+          <a class="menu-link" href="#voice">Voice</a>
+        </div>
+
+        <p class="menu-label">Reference</p>
+        <div class="menu-group">
+          <a class="menu-link" href="#pro">Free vs PRO</a>
+          <a class="menu-link" href="#troubleshooting">Troubleshooting</a>
+          <a class="menu-link" href="#support">Support</a>
+        </div>
+      </aside>
+
+      <main class="manual-main">
 
     <section class="manual-section" id="quick-start">
       <h2>1. Quick Start</h2>
@@ -503,6 +579,9 @@
       <p>For privacy details, see the Privacy Policy page on this site.</p>
     </section>
 
+      </main>
+    </div>
+
   </div>
 
   <footer>
@@ -529,6 +608,36 @@
       localStorage.setItem('theme', next);
       btn.textContent = next === 'dark' ? '☀️' : '🌙';
     });
+
+    const links = Array.from(document.querySelectorAll('.menu-link'));
+    const sections = links
+      .map(link => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActiveLink = (id) => {
+      links.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${id}`;
+        link.classList.toggle('active', isActive);
+      });
+    };
+
+    if (sections.length > 0) {
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length > 0) {
+          setActiveLink(visible[0].target.id);
+        }
+      }, {
+        rootMargin: '-30% 0px -55% 0px',
+        threshold: [0.2, 0.45, 0.7]
+      });
+
+      sections.forEach(section => observer.observe(section));
+      setActiveLink(sections[0].id);
+    }
   </script>
 </body>
 </html>
